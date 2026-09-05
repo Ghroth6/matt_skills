@@ -19,8 +19,8 @@ changes to Matt-derived Skills belong here.
 - Treat this fork's reviewed `main` as the installation source. Review upstream
   updates on a separate branch before integrating them into that version.
 
-The initialization change introduces this policy and its instruction pointer.
-All three entries below remain `Proposed`; no Skill behavior changes with it.
+The initialization change introduced this policy and its instruction pointer
+without changing Skill behavior. Entries below track subsequent implementations.
 
 ## Baseline
 
@@ -34,7 +34,7 @@ Checked on 2026-09-06:
 
 ## P001: Wayfinder incremental capture
 
-**Status:** Proposed.
+**Status:** Implemented.
 
 **Problem:** During long exploration, user corrections, constraints, rationale,
 and unresolved questions can be lost before the first map is created.
@@ -55,9 +55,28 @@ tentative ideas and agent proposals.
 lost from the conversation. Capture should preserve the meaning and reasons
 needed to continue, while keeping each meaning in one authoritative place.
 
-**Open design:** Capture triggers, artifact ownership, and the recovery entry
-point still need evaluation. Early draft maps, temporary checkpoints, and an
-independent Skill are candidates, not selected architecture.
+**Implementation:** [Incremental capture](skills/engineering/wayfinder/incremental-capture.md)
+preserves material changes before the next charting round. Reuse the effort
+issue for information without an existing authoritative home; create an
+ordinary issue only when needed and authorized. Read back the saved content
+and expose that issue as the continuation entry. Absorbed information becomes
+references to its proper home. This adds no independent Skill or Host hook.
+
+**Validation:** The implemented instructions were evaluated at
+[`2c3f165`](https://github.com/Ghroth6/matt_skills/commit/2c3f165e04e7ff9f8c104e2b542ce5a5f078b976).
+In one synthetic replay per arm, both baseline and candidate preserved the
+important meaning when an effort issue already existed. Without an existing
+issue, baseline saved only a glossary; candidate created an effort issue from
+which a fresh reader recovered scope, corrections, rationale, and unknowns.
+A stale initial-state sentence in the recovery fixture was removed for both
+arms before that comparison. Candidate boundary checks found no write for
+an unchanged short discussion and an explicit unsaved gap under read-only
+authorization. Invocation metadata is unchanged from upstream.
+
+**Limits:** These are small instruction-level replays, not an automatic
+compaction or cross-Host reliability benchmark. Multi-round behavior, source
+absorption, concurrent edits, and transport-level tracker failures still need
+field evidence. The rule works within the configured tracker's authorization.
 
 **Related upstream issues:** [#716](https://github.com/mattpocock/skills/issues/716)
 concerns session boundaries; [#944](https://github.com/mattpocock/skills/issues/944)
