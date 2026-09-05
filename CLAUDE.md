@@ -1,3 +1,5 @@
+This repository is a personalized downstream of `mattpocock/skills`. Before changing upstream-derived skills or reconciling upstream updates, read [PERSONALIZATIONS.md](./PERSONALIZATIONS.md) for intentional differences and their status.
+
 Skills are organized into bucket folders under `skills/`:
 
 - `engineering/`: daily code work
