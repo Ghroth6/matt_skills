@@ -56,6 +56,9 @@ Research is the only exception to *one ticket per session*.
 
 ## Common questions
 
+**What survives if the initial discussion ends before there is a map?**
+During charting, important corrections, constraints, and changes in understanding are saved before the next discussion round. Existing domain or decision artifacts keep what belongs to them; the current effort issue's `Working context` holds necessary information that has no such home yet. Continue from that issue's reference. As information moves into its proper artifacts, the buffer becomes references to them. A short exchange with no new uncaptured meaning adds no persistence write.
+
 **How is this different from `/grill-with-docs`? Which should I start with?**
 Session count, not project size. `/grill-with-docs` is single-session planning; wayfinder is multi-session planning. If you can hold the whole thing in one conversation, grilling is the cheaper and better tool, and wayfinder is genuinely slower and denser for that case. The community shorthand that has settled on it: wayfinder only makes sense if the work doesn't fit into a single session. This is by a distance the most-asked wayfinder question, and it keeps being asked because the descriptions do not tell you where your own task sits on that line. You have to judge the session count yourself.
 
@@ -88,7 +91,8 @@ It is this skill, renamed to `wayfinder` in v1.1 and invoked as `/wayfinder`. "D
 
 ## It's working if
 
-- The destination is written down and agreed before a single ticket exists.
+- The destination is written down and agreed before a single decision ticket exists.
+- Important pre-map corrections and unresolved questions can be recovered from the effort issue and its source references, with tentative ideas still marked as tentative.
 - Every open ticket reads as a question. Any ticket that reads "build the X" is either mis-typed or belongs downstream of the map.
 - You can look at your tracker and see which tickets are takeable without opening the map, since that is the frontier rendering itself through native blocking.
 - A session resolves one ticket, posts the answer as a resolution comment, closes it, and leaves one line on the map's *Decisions so far*. Then it stops.
