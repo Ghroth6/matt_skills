@@ -8,78 +8,57 @@
   </a>
 </p>
 
-# Skills For Real Engineers
+# Matt Skills: personal fork
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
+This is Ghroth6's personal downstream of [mattpocock/skills](https://github.com/mattpocock/skills). It keeps Matt's skill structure and selected workflow changes, recorded in [PERSONALIZATIONS.md](./PERSONALIZATIONS.md). Install from this fork's reviewed `main` branch.
 
-My agent skills that I use every day to do real engineering - not vibe coding.
+Original skills and independent research live in [Ghroth6/skills](https://github.com/Ghroth6/skills). The skill overview below retains Matt's upstream guidance and attribution.
 
-Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
+## Install and update
 
-These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience. Hack around with them. Make them your own. Enjoy.
-
-If you want to keep up with changes to these skills, and any new ones I create, you can join ~60,000 other devs on my newsletter:
-
-[Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
-
-## Installation (30-second setup)
-
-Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
-
-### 1. Get the skills
-
-<details>
-<summary><strong>Claude Code</strong></summary>
+Use the same command for Codex, Claude Code, and other supported agents:
 
 ```bash
-claude plugins install mattpocock-skills
+npx skills add Ghroth6/matt_skills -g
 ```
 
-Or, from inside a session:
+Select all skills and choose the agents you use. `-g` installs for the current user across projects. All skills includes the experimental `in-progress/` and optional `misc/` buckets; their status remains visible in the bucket READMEs.
 
-```
-/plugin install mattpocock-skills
-```
+If you previously installed from Matt's repository with `skills`, this replaces the selected skills in the same scope and records this fork as their source. A separate uninstall is unnecessary. The official `mattpocock-skills` Claude plugin installs upstream; use one installation route per agent to avoid duplicate entries.
 
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
-
-</details>
-
-<details>
-<summary><strong>Codex, and other agents</strong></summary>
+Update installed skills when ready:
 
 ```bash
-npx skills@latest add mattpocock/skills
+npx skills update -g
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
-
-A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
-
-</details>
-
-<details>
-<summary><strong>For tinkerers</strong></summary>
-
-Use the same installer, on any agent, including Claude Code:
+This updates all global skills from their recorded sources, including skills from other repositories. Re-run the install command above to refresh only this fork's selected skills or change the selected agents. To update one skill:
 
 ```bash
-npx skills@latest add mattpocock/skills
+npx skills update wayfinder -g
 ```
 
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+Use the same installation command on another computer, then update that computer's installed copies when ready. Updating the fork or one computer does not update installations on another computer. Skills that are renamed or removed from the fork need their old installed names removed with `npx skills remove <name> -g`.
 
-</details>
+### Configure each work project
 
-### 2. Run `/setup-matt-pocock-skills`
+Use `setup-matt-pocock-skills` in each work project that still needs its tracker, labels, or domain-document pointers configured. Existing project conventions remain the source of truth; installation and project setup are separate operations.
 
-In your agent, run it once per repo. It will:
+## Maintain this fork
 
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
-- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
-- Ask you where you want to save any docs we create
+There are two update operations: `skills update` refreshes installed copies from this fork, while upstream reconciliation brings selected Matt changes into the fork. The installer does not reconcile Git history.
 
-### 3. Bam - you're ready to go.
+Periodically check upstream from a clone of this repository:
+
+```bash
+git fetch upstream
+git log --oneline main..upstream/main
+git diff main...upstream/main
+```
+
+`origin` is `Ghroth6/matt_skills`; `upstream` is `mattpocock/skills`. In a fresh clone, configure upstream once with `git remote add upstream https://github.com/mattpocock/skills.git`. Keep the review, branch, and adoption decisions in the [maintenance policy](./PERSONALIZATIONS.md#maintenance-policy).
+
+Use the same maintenance loop for problems found in daily use: record a concrete failure, change the affected skill, and verify the behavior. For Matt's personal or experimental skills, decide whether to use as-is, adapt, leave uninstalled, or retire after checking references from other skills. Record intentional adaptations and retirements in `PERSONALIZATIONS.md` so future upstream reviews preserve those decisions.
 
 ## Why These Skills Exist
 
