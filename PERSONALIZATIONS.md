@@ -18,6 +18,19 @@ changes to Matt-derived Skills belong here.
   rules for any accompanying docs, routing, or packaging changes.
 - Treat this fork's reviewed `main` as the installation source. Review upstream
   updates on a separate branch before integrating them into that version.
+- Track maintenance work in [Ghroth6/skills Issues](https://github.com/Ghroth6/skills/issues).
+  Start a `codex/*` branch from current `main`, commit and push the change, and
+  open a PR here with `Closes Ghroth6/skills#<issue-number>`. The owner decides
+  when to merge; installations update separately on each computer.
+- For an upstream review, fetch and inspect the new commits and affected
+  skills against this registry. Report what to adopt, adapt, or defer and why.
+  Integrate accepted updates on the review branch, verify affected behavior
+  and references, then use the same PR workflow. A scheduled check produces
+  findings for that decision; merge and installation remain explicit actions.
+- Use observed failures to prioritize standard-skill improvements. For personal
+  or experimental skills, choose use as-is, adaptation, leaving uninstalled, or
+  retirement. Before removal, check callers, router entries, docs, and package
+  references; record the decision here so upstream updates can be reconciled.
 
 The initialization change introduced this policy and its instruction pointer
 without changing Skill behavior. Entries below track subsequent implementations.
