@@ -37,13 +37,36 @@ without changing Skill behavior. Entries below track subsequent implementations.
 
 ## Baseline
 
-Checked on 2026-09-06:
+Reviewed on 2026-09-22 for [maintenance issue #37](https://github.com/Ghroth6/skills/issues/37):
 
-- Fork base: [`6654f6b`](https://github.com/mattpocock/skills/commit/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76).
-- Upstream `main`: [`3cca18b`](https://github.com/mattpocock/skills/commit/3cca18b368ae95cdbdebbff572ccafa662551015).
-- The fork is two commits behind this upstream snapshot. Those changes affect
-  `scripts/link-skills.sh` and its description in `CLAUDE.md`; the Skill flows
-  discussed below are unchanged. This initialization does not integrate them.
+- Previous upstream base: [`6654f6b`](https://github.com/mattpocock/skills/commit/6654f6b60cd9d5be8b54c6fafe44346dabeb3b76).
+- Fork before integration: [`7e435cc`](https://github.com/Ghroth6/matt_skills/commit/7e435cca796613837de8d40d93ad3e8056d6fd71).
+- Integrated upstream snapshot on the review branch: [`c55ee46`](https://github.com/mattpocock/skills/commit/c55ee46073ed923f86ce59a5eb3b6d895095d1b7),
+  covering 15 upstream-only commits and nine changed files.
+- **Adopt:** `retro` prioritizes deterministic checks for mechanical mistakes;
+  `pr` supplies an experimental PR body reference; the maintainer link script
+  excludes `deprecated/` and `misc/` while retaining `in-progress/`.
+- **Adapt:** resolve the `CLAUDE.md` installation conflict by documenting the
+  new exclusions while preserving this fork's `skills` installation route.
+  Align the experimental index and pending `pr` changeset with the current
+  Skill bodies. Add the optional `pr` route to `ask-matt` and its docs, as the
+  repository's routing rule requires. Reconcile these small documentation
+  differences again when upstream updates the same descriptions or router.
+- **Preserve/defer:** P001 remains implemented; upstream has not changed
+  Wayfinder or replaced incremental capture. P002 and P003 remain proposed.
+  `pr` and `retro` stay experimental and outside promoted plugin packaging.
+  The owner decides when to merge the review PR; installed copies update
+  separately after that decision.
+
+**Validation:** Plugin version, Bash syntax, Markdown references, and whitespace
+checks passed. Running only the link script's selection expression on the
+integrated tree selected 34 Skills instead of 38, excluding the four `misc/`
+Skills while retaining `pr` and `retro`. All 38 Skills' YAML and invocation
+policies match the repository contract; the plugin still contains exactly
+the 25 promoted Skills. Wayfinder files, P001-P003 entries, fork installation
+docs, and plugin manifests match the pre-merge fork. This is structural and
+selection validation, not a new behavioral replay of the experimental Skills;
+the installer was not run.
 
 ## P001: Wayfinder incremental capture
 
