@@ -2,7 +2,11 @@
 
 A **phase** is a chunk of work inside a session: the grilling, the implementation, the QA. The definition is fuzzy on purpose: a phase ends when you think *"ok, we're done with that"*.
 
-The **phase boundary** is the gap between two phases, and it is the only place this decision belongs. Mid-phase there is no decision to make: continue, or split the work that's left into subagents. Compacting mid-phase makes the agent lose the thread.
+The **phase boundary** is the gap between two phases, the preferred place to
+decide how to continue. Keep an active diagnosis or design discussion together
+while its observations depend on each other. A forced host compaction can still
+occur mid-phase; recover current decisions from durable sources rather than
+assuming the original conversation is intact.
 
 ## The five options
 
@@ -18,9 +22,21 @@ The **phase boundary** is the gap between two phases, and it is the only place t
 
 Work top to bottom at the boundary. The first **yes** wins.
 
-**1. Can you continue in this session?** Two things make the answer yes: the next phase needs this phase as a **primary source**, or you have enough [smart zone](https://www.aihero.dev/ai-coding-dictionary/smart-zone) left (~150k tokens) for the next phase to fit. Grilling → implementation is the standard yes: the implementation wants the reasoning verbatim, not a summary of it. Continue costs nothing and loses nothing, so rule it out before anything else.
+**1. Can you continue in this session?** Prefer continuing related phases when
+the context is still coherent and useful, especially grilling to implementation.
+Judge the next deliverable, unresolved decisions, and the host's actual context
+state; a fixed token count is not a universal reasoning-quality threshold.
+Repeated corrections or compressed-away reasons call for refreshing the relevant
+sources before choosing whether to continue. Staying in one visible session
+does not guarantee an uncompressed primary source.
 
 **2. Is the context irrelevant to what comes next?** Is everything in this session (the exploration, the decisions, the dead ends) disposable? If so, **`/clear`**. It is the cheapest move on the board: it takes no time and hands back the whole window. `/clear` also isn't terminal: the old session stays resumable.
+
+For an independently verifiable deliverable, prefer a fresh session once its
+required decisions are recoverable from the ticket and sources. Keep a long-lived
+overview session focused on goals, dependencies, and results instead of filling
+it with every implementation trace. Recommend a boundary when useful; do not
+ask about switching after every small step or create sessions without a request.
 
 The cost of getting this wrong is one-way. Clear a *relevant* context and you lose the **why** behind what you built, and no amount of reading the diff back gets it returned.
 
@@ -41,11 +57,13 @@ That list is the whole clause. What `/handoff` buys is **portability**: a file t
 
 ## Primary and secondary sources
 
-Every move except **Continue** turns a **primary source** into a **secondary source**: the session as it happened, replaced by a summary of it. The trade is always the same shape:
+Summarizing a conversation turns a **primary source** into a **secondary source**.
+Even Continue may already depend on a host summary. Saved decisions and linked
+artifacts remain available for targeted recovery. The trade is:
 
 | Source                            | Information | Noise | Room to move |
 | --------------------------------- | ----------- | ----- | ------------ |
-| Primary (Continue)                | Full        | Lots  | Little       |
+| Uncompressed conversation        | Full        | Lots  | Little       |
 | Secondary (`/compact`, `/handoff`) | Lossy       | Less  | Lots         |
 
 This is why question 1 comes first. You only pay the lossiness when staying costs more than it saves.

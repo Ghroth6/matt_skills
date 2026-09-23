@@ -10,7 +10,7 @@ The destination varies per effort, and naming it is the first act of charting: i
 
 ## Plan, don't do
 
-Wayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear, with nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off. An effort can override this in its **Notes**, carrying execution into the map itself, but absent that, produce decisions, not deliverables.
+Wayfinder is **planning** by default: each ticket resolves a decision, and the map is done when the way is clear, with nothing left to decide before someone goes and does the thing. The pull to just do the work is usually the signal you've reached the edge of the map and it's time to hand off. An explicit user-authorized execution scope may be recorded in **Notes**; a note written by the agent is not itself authorization. Without that user instruction, produce decisions, not deliverables.
 
 ## Refer by name
 
@@ -54,7 +54,7 @@ The whole map at low resolution, loaded once per session. Open tickets are **not
 
 ### Tickets
 
-Each ticket is a **child issue** of the map; the tracker's issue id is its identity. Its body is the question, sized to one 100K token agent session:
+Each ticket is a **child issue** of the map; the tracker's issue id is its identity. Its body is one focused question, small enough for a fresh agent to resolve from the map and relevant sources without recovering the entire project history:
 
 ```markdown
 ## Question
@@ -85,6 +85,12 @@ The map is _deliberately_ incomplete: don't chart what you can't yet see. Beyond
 
 The map's **Not yet specified** section is where that dim view is written down: the suspected question, the area to revisit later. It's the undiscovered frontier _toward_ the destination: everything here is in scope, just not sharp enough to ticket. Write as loosely or as fully as the view allows; it doubles as a signpost for collaborators reading where the effort is headed.
 
+Keep the planning horizon tied to evidence. A precise question can be a
+decision ticket while its answer is unknown; that does not make a downstream
+implementation ready. Detail future implementation only after its material
+premises are established. When a resolution invalidates a premise, revisit the
+affected decisions and references before advancing that part of the map.
+
 **Fog or ticket?** The test is whether you can state the question precisely now, _not_ whether you can answer it now.
 
 - **Ticket when** the question is already sharp, even if it's blocked and you can't act on it yet.
@@ -102,7 +108,14 @@ Ruling something out of scope is a scoping act, not a step on the route. When a 
 
 ## Invocation
 
-Two modes. Either way, **never resolve more than one ticket per session**, with the exception of research tickets.
+Two modes. By default, charting ends after the map is saved, and a walking
+session resolves one ticket, with the exception of research tickets. Save the
+resolution and continuation entry before stopping. If the user explicitly asks
+to continue related decision work in this session, re-read the affected map
+state, blockers, and claims, then take one next ticket. This exception does not
+authorize queue draining, implementation, or creating another session. For an
+independent question or a confused context, recommend a fresh session with the
+saved entry rather than carrying ambiguous state forward.
 
 ### Chart the map
 
@@ -115,7 +128,8 @@ During charting, follow [Incremental capture](incremental-capture.md) after an e
 3. **Create the map** (label `wayfinder:map`): Destination and Notes filled in, Decisions-so-far empty, the fog sketched into **Not yet specified**. Link any earlier effort issue from Notes while it still holds relevant Working context; apply the capture reference's absorption rule as those entries gain their proper homes.
 4. **Create the tickets you can specify now** as child issues of the map, then wire blocking edges in a **second pass** (issues need ids before they can reference each other). Wiring sorts them into the frontier and the blocked; everything you can't yet specify stays in the fog: the **Not yet specified** section.
 5. **Fire the research subagents.** For each `research` ticket you just created, spin up a subagent that calls the Skill tool with "research" to resolve it in parallel, capturing its findings on a throwaway `research/<name>` branch with a context pointer from the ticket.
-6. Stop: charting is one session's work; it hand-resolves nothing.
+6. Return the saved map entry and next decision. Stop by default; apply the
+   explicit continuation rule above only when the user asks to proceed.
 
 ### Work through the map
 
@@ -126,5 +140,7 @@ User invokes with a map (URL or number). A ticket is **optional**: without one, 
 3. Resolve it. **Zoom as needed**: fetch the full body of any related or closed ticket on demand; call the Skill tool for whichever skills the `## Notes` block names. If in doubt, call the Skill tool twice, for "grilling" and "domain-modeling".
 4. Record the resolution: post the answer as a **resolution comment**, **close** the issue, and **append a context pointer** to the map's Decisions-so-far.
 5. Add newly-surfaced tickets (create-then-wire); graduate any fog the answer has made specifiable, clearing each graduated patch from **Not yet specified** so it lives only as its new ticket. If the answer reveals that a ticket (this one or another) sits beyond the destination, **rule it out of scope** rather than resolving it on the route. If the decision invalidates other parts of the map, update or delete those tickets.
+6. Return the resolution and saved continuation entry. Stop by default; a
+   user-requested continuation rechecks the frontier under the rule above.
 
 The user may run unblocked tickets in parallel, so expect other sessions to be editing the tracker concurrently.
