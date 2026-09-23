@@ -11,6 +11,13 @@ Include a "suggested skills" section in the document, naming which skills the ne
 
 Do not duplicate content already captured in other artifacts (specs, plans, ADRs, issues, commits, diffs). Reference them by path or URL instead.
 
+Carry the current goal, confirmed corrections and exclusions, implementation
+location/version, observed verification and its limits, unresolved work, and
+the next action. Keep suggestions distinct from decisions and superseded
+interpretations clearly historical. Use specific source pointers so the next
+agent can recover relevant reasons without reading the entire project history.
+Name inaccessible or unsaved evidence as a gap, not as a completed checkpoint.
+
 Redact any sensitive information, such as API keys, passwords, or personally identifiable information.
 
 If the user passed arguments, treat them as a description of what the next session will focus on and tailor the doc accordingly.
