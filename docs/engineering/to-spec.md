@@ -39,7 +39,10 @@ Those agreed seams then travel. [tdd](https://aihero.dev/skills-tdd) works only 
 It is this skill, renamed in v1.1. "Spec" is now the single through-line term, and the old `to-prd` slug is dead; reinstall under the new name. The pair that replaced the old vocabulary is *spec* and *tickets*: the spec is the destination and the decisions that fix it, the [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) are the execution steps that get there. If you pivot, delete the unfinished tickets and keep the spec.
 
 **Does every generated spec get the `ready-for-agent` label?**
-In this fork, only when scope, acceptance, and material decisions are clear. Otherwise the configured non-ready status records the actual gap. Readiness and dependency completion are separate, and neither is an instruction to start implementation. If an [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) dispatcher polls readiness labels, configure which artifacts it may execute so it does not mistake a parent spec for one ticket-sized deliverable.
+- **Scope, acceptance, and material decisions are clear:** the configured ready status can apply.
+- **A material gap remains:** use the configured non-ready status and record the gap.
+
+Readiness and dependency completion are separate, and neither is an instruction to start implementation. If an [AFK](https://www.aihero.dev/ai-coding-dictionary/afk) dispatcher polls readiness labels, configure which artifacts it may execute so it does not mistake a parent spec for one ticket-sized deliverable.
 
 **Why not go straight from grilling to `/to-tickets` and skip the spec?**
 Often you should; the spec earns its step only on multi-session work. Where it pays is that the tickets are disposable and the spec isn't: each ticket is sized for one fresh context window and gets deleted or closed, while the spec stays as the one place the reasoning behind them lives. On a single-session change that buys you nothing, and you have paid an extra synthesis step where the [model](https://www.aihero.dev/ai-coding-dictionary/model) can drift. Go grilling → `/implement`.

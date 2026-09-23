@@ -128,10 +128,10 @@ accepted upstream implementation of pre-map capture.
 **Problem:** Exploration can turn into a large implementation roadmap whose
 later steps depend on assumptions that earlier work has not validated.
 
-**Upstream behavior:** [Wayfinder guidance](docs/engineering/wayfinder.md)
+**Upstream behavior at the starting baseline:** [Wayfinder guidance](docs/engineering/wayfinder.md)
 already recommends bounded destinations and prototypes. Its Skill separates
 decision tickets from fog. [to-spec](skills/engineering/to-spec/SKILL.md)
-still requests extensive user stories, and
+requested extensive user stories, and
 [to-tickets](skills/engineering/to-tickets/SKILL.md) slices the supplied work.
 
 **Desired behavior:** Detail implementation only where the current evidence
@@ -163,8 +163,8 @@ upstream issue is asserted as acceptance of this personalization.
 **Problem:** Important meaning and evidence can disappear across conversation,
 map, specification, implementation issues, and implementation.
 
-**Upstream behavior:** Wayfinder links decision details from an index;
-`to-spec` and `to-tickets` allow decision-rich prototype snippets. The current
+**Upstream behavior at the starting baseline:** Wayfinder links decision details from an index;
+`to-spec` and `to-tickets` allow decision-rich prototype snippets. The baseline
 [implement](skills/engineering/implement/SKILL.md) entrypoint does not
 explicitly require loading related decisions, comments, and prototype assets.
 
@@ -250,7 +250,8 @@ hardware and verification rules are downstream choices, not upstream approval.
 The [local scope](docs/research/personal-workflow-candidate.md),
 [upstream review](docs/research/personal-workflow-upstream-review-20260923.md), and
 [replay fixtures](docs/research/personal-workflow-replay-cases.md) define this
-candidate. Behavioral results are recorded separately from owner acceptance.
+candidate. The [validation report](docs/research/personal-workflow-validation-20260923.md)
+records behavioral results separately from owner acceptance.
 
 On an upstream update, compare affected skills, human docs, and router entries
 against P001-P006. Retire a local patch when upstream solves its actual problem.

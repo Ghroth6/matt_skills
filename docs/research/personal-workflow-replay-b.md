@@ -133,3 +133,13 @@ Sources read: `engineering/ask-matt/SKILL.md`, `engineering/ask-matt/PHASE-BOUND
 **Relevant sources:** R10 accepted output contract, input/expected-output fixture, negative-count rule, base-commit run, agreed CLI seam and JSON keys, and stated tracker vocabulary. Instructions read: `engineering/to-tickets/SKILL.md` from the candidate snapshot.
 
 No further user answer or breakdown approval is needed: you already approved the single-ticket breakdown. This is a local draft only. No implementation, tests, tracker publication, or parent edits were performed; the base-run evidence is supplied fixture evidence rather than a run I executed.
+
+## R9 final-source follow-up
+
+Continue in this task for the agreed small parser change. Its checks and decisions are settled, the discussion remains coherent, and the sources are saved. The next step is for you to invoke `/implement` here with that bounded scope. It can drive the agreed checks and review the implementation diff before completion; if review needs committed changes, a local checkpoint can precede review, with findings resolved before closeout.
+
+The UI still needs its own design discussion. A separate task becomes useful when you take up that independent scope with recoverable source pointers, or when mixing its decisions into this implementation would make the context harder to follow. Refresh relevant saved decisions if reasoning has been lost or corrections recur. Use a portable handoff when transferring to another harness, directory, or colleague; consider compaction only when continuing with the relevant context is no longer practical.
+
+There is no visible token estimate, so no numeric switching threshold can be inferred. The available evidence supports continuity now.
+
+Sources read: R9 in `docs/research/personal-workflow-replay-cases.md`; current `skills/engineering/ask-matt/SKILL.md` and `skills/engineering/ask-matt/PHASE-BOUNDARIES.md` under `C:/lyl/projects/matt_skills`. This is offline routing advice: no task creation, skill invocation, implementation, review, or execution occurred.

@@ -38,10 +38,16 @@ In this fork, those pointers must locate the reasons relevant to the next task, 
 ## Common questions
 
 **Handoff or compact?**
-Continue when related work still benefits from coherent context. If that no longer fits and nothing is travelling, `/compact` may be appropriate. `/handoff` earns its extra artifact when the work needs to travel; its advantage is a portable file, not a promise of better summarization.
+- **Continue:** related work still benefits from coherent context.
+- **Compact:** continuing no longer fits, nothing is travelling, and relevant context must be retained.
+- **Handoff:** the work needs to travel. Its advantage is a portable file, not a promise of better summarization.
 
 **So what's the actual difference between compact, clear and handoff?**
-`/compact` replaces conversation detail with a summary. `/clear` removes the active context and is appropriate when it is disposable. `/handoff` writes a portable file that references the evidence needed elsewhere. A summary is a **[secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source)**, so preserve access to relevant **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)**. Even a continuing visible session may already rely on a host summary.
+- **`/compact`:** replaces conversation detail with a summary.
+- **`/clear`:** removes the active context when it is disposable.
+- **`/handoff`:** writes a portable file referencing the evidence needed elsewhere.
+
+A summary is a **[secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source)**, so preserve access to relevant **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)**. Even a continuing visible session may already rely on a host summary.
 
 **Where did my handoff file go?**
 The temp directory, which is the most-reported friction with the skill: the paths are long, they differ per OS, and on Windows agents sometimes take several attempts to find the right one. Ask for the path back and keep it before you move on. Temp is deliberate: a handoff is a transit document, not an artifact you maintain. It is not a durable one either; see the next question.

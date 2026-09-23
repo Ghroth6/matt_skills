@@ -23,7 +23,7 @@ The route most work travels. You have an idea and want it built.
    - **Yes** → **`/to-spec`** (turn the thread into a spec), then **`/to-tickets`** to split evidence-supported work into tracer-bullet tickets with source references and **blocking edges**. Local trackers store one file per ticket; real trackers use native edges where supported. A ticket can start when its material decisions are settled and its blockers are done. Invoke **`/implement`** for each authorized deliverable. Prefer fresh context for independent work once its required decisions are recoverable; related phases can continue together.
    - **No** → **`/implement`** right here, in the same context window.
 
-   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then closes out by running **`/code-review`**, a two-axis review (Standards + Spec) of the diff, before committing. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
+   Either way, **`/implement`** builds each issue by driving **`/tdd`** internally (one red-green slice at a time), then runs **`/code-review`**, a two-axis review (Standards + Spec) of the implementation diff, before completion. When review requires committed changes, make a local checkpoint first; resolve findings and commit any corrections before close-out. Reach for **`/tdd`** on its own when you just want to build a concrete behaviour test-first without a full spec, and **`/code-review`** on its own whenever you want to review a branch or PR against a fixed point.
 
 ### Context hygiene
 
