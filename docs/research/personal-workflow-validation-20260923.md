@@ -1,7 +1,8 @@
 # Personal workflow candidate: local validation
 
-Date: 2026-09-23. Owner acceptance, remote publication, and installation are
-pending. This report evaluates the local candidate, not field reliability.
+Date: 2026-09-23. Owner accepted the reviewed candidate after this validation.
+Publication and installation are separate delivery steps. This report evaluates
+the local candidate, not field reliability.
 
 ## Versions and scope
 
@@ -123,6 +124,7 @@ by the owner. The three most useful owner checks are:
 3. Does device work advance with honest provisional reasoning and actual
    evidence, without substituting host tests for board or GUI acceptance?
 
-Keep P002-P006 as Candidate until that joint review. Only then proceed with the
-authorized personal-repository delivery workflow and installation from the
-reviewed fork. No installation was performed during this validation.
+Joint review is complete: the owner accepted the candidate on 2026-09-23.
+P002-P006 are Implemented. Proceed with the authorized personal-repository
+delivery workflow and installation from the reviewed fork. No installation
+was performed during the validation runs described above.

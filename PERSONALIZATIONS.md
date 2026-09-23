@@ -123,7 +123,7 @@ accepted upstream implementation of pre-map capture.
 
 ## P002: Planning confidence horizon
 
-**Status:** Candidate (local, not published or installed).
+**Status:** Implemented; owner accepted on 2026-09-23.
 
 **Problem:** Exploration can turn into a large implementation roadmap whose
 later steps depend on assumptions that earlier work has not validated.
@@ -158,7 +158,7 @@ upstream issue is asserted as acceptance of this personalization.
 
 ## P003: Cross-artifact fidelity
 
-**Status:** Candidate (local, not published or installed).
+**Status:** Implemented; owner accepted on 2026-09-23.
 
 **Problem:** Important meaning and evidence can disappear across conversation,
 map, specification, implementation issues, and implementation.
@@ -193,7 +193,7 @@ has not been adopted by this fork.
 
 ## P004: Outcome-based session boundaries
 
-**Status:** Candidate (local, not published or installed).
+**Status:** Implemented; owner accepted on 2026-09-23.
 
 **Problem:** Fixed context thresholds and mandatory switches can discard useful
 reasoning, while a single visible session may already contain host compactions.
@@ -212,7 +212,7 @@ unchanged.
 
 ## P005: Scoped grilling with delegated implementation choices
 
-**Status:** Candidate (local, not published or installed).
+**Status:** Implemented; owner accepted on 2026-09-23.
 
 **Problem:** Repeating settled questions or escalating delegated reversible
 details spends human attention without resolving product uncertainty.
@@ -230,7 +230,7 @@ maintainer's shared-understanding position in
 
 ## P006: Proportionate diagnosis with real-device evidence
 
-**Status:** Candidate (local, not published or installed).
+**Status:** Implemented; owner accepted on 2026-09-23.
 
 **Problem:** A mandatory fast agent-only repro can cause irrelevant mocks or
 block useful inspection when the actual failure needs slow equipment/manual work.
@@ -259,3 +259,15 @@ Check both overlapping text and silent semantic contradictions; a clean merge
 does not prove compatibility. Keep project facts in project configuration and
 these reusable workflow differences in source. Publish the reviewed fork before
 updating installed copies from it; do not edit installations as another source.
+
+## Accepted workflow revision (2026-09-23)
+
+The owner accepted P002-P006 after reviewing the behavior and local validation.
+Implementation commits: `4af6247` and `820eb77`. The
+[validation report](docs/research/personal-workflow-validation-20260923.md)
+records the synthetic comparisons, structural checks, independent review
+corrections, and remaining field-validation limits. Acceptance approves this
+workflow for use; it does not establish long-term or cross-model reliability.
+
+Delivery is tracked by [maintenance issue #38](https://github.com/Ghroth6/skills/issues/38).
+Installed copies are updated from reviewed `main` after the delivery PR merges.

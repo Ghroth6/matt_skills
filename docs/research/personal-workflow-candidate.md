@@ -1,7 +1,8 @@
 # Personal workflow candidate
 
-Status: local candidate for owner review. No remote publication or installation
-is authorized until the owner and agent confirm the result together.
+Status: owner accepted on 2026-09-23 after local validation and joint review.
+Proceed with personal-repository delivery and this device update under the
+previously agreed workflow. Field-reliability limits remain unchanged.
 
 ## Baseline and purpose
 
