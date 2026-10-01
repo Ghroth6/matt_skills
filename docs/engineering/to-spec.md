@@ -54,7 +54,7 @@ The main map issue: `/to-spec #<map_issue>`, not the individual decision tickets
 It must support both implementation and your review. Check the accepted behavior, concrete examples, seams, exclusions, and remaining questions. This fork has no target length for user stories: it covers materially distinct behavior within the agreed scope. A surprising assertion may be a synthesis error, so check its source instead of treating its presence in the spec as agreement.
 
 **Do I keep the spec frozen once tickets start, or let the agent rewrite it?**
-It records what the evidence supports now. When a completed slice invalidates a premise, revisit the affected plan before treating later work as a commitment. Unrelated future work can remain a named question. There is no automatic synchronization service; enduring domain terms and architectural decisions still belong in `CONTEXT.md` and ADRs.
+It records what the evidence supports now. When a completed slice invalidates a premise, revisit the affected plan before treating later work as a commitment. Unrelated future work can remain a named question. There is no automatic synchronization service; enduring domain terms and architectural decisions still belong in `GLOSSARY.md` and ADRs.
 
 **My work is a refactor or a module boundary, not a feature. Does the template fit?**
 Less well, and this is a known limitation. The template leans hard on user stories, which is the wrong shape for architectural work: you end up writing stories nobody asked for around decisions that are really about interfaces and invariants. Lean on the implementation-decisions and testing-decisions sections instead, and let the durable architectural calls land as ADRs via [grill-with-docs](https://aihero.dev/skills-grill-with-docs) rather than trying to make the spec carry them.
@@ -79,7 +79,7 @@ Keep related synthesis phases together when their context is coherent, but prese
 `to-spec` is a step in the main build chain, and only on the multi-session branch of it:
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review
+grill-with-docs → to-spec → to-tickets → implement → code-review → retro
 ```
 
 Its neighbours upstream are [grill-with-docs](https://aihero.dev/skills-grill-with-docs), which does the deciding this skill only records, and [wayfinder](https://aihero.dev/skills-wayfinder), whose finished map merges onto the chain right here. Downstream, [to-tickets](https://aihero.dev/skills-to-tickets) cuts the spec into tracer-bullet tickets for [implement](https://aihero.dev/skills-implement) to build. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.

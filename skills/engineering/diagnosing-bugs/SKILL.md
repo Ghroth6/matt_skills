@@ -13,7 +13,7 @@ Reuse relevant repro evidence already obtained. Reading code and forming
 provisional hypotheses may help construct a loop, but neither establishes a
 root cause or a verified fix.
 
-When exploring the codebase, read `CONTEXT.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
+When exploring the codebase, read `GLOSSARY.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
 
 ## Redact
 

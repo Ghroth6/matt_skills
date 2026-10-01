@@ -54,11 +54,11 @@ Its default endpoint is a reviewed local commit, with the implemented outcome an
 
 **Can I point it at all my tickets at once, or run several in parallel?**
 
-It accepts the work you authorize from a spec, ticket set, or agreed conversation, but it is not a queue dispatcher. Keep each deliverable bounded and make concurrency a separate repository decision. Several sessions sharing a checkout also share its index and HEAD; isolation and integration need an explicit workflow. Finishing one item does not grant permission to drain the remaining queue.
+It accepts the work you authorize from a spec, ticket set, or agreed conversation, but it is not a queue dispatcher. Keep each deliverable bounded. For a task graph you want coordinated in parallel, invoke [implement-spec](https://aihero.dev/skills-implement-spec), which isolates implementers in worktrees and integrates their work on one branch. Several sessions sharing a checkout also share its index and HEAD; worktrees still share `refs/stash`. Finishing one item does not grant permission to drain the remaining queue.
 
 **Can it open a pull request instead of committing?**
 
-The default endpoint is a local commit. An explicit request or repository workflow can authorize publication and a PR afterward; the skill itself does not grant that authority. Set the intended branch and delivery scope before starting.
+The default endpoint is a local commit. An explicit request or repository workflow can authorize publication and a PR afterward; the skill itself does not grant that authority. Set the intended branch and delivery scope before starting. When the agent writes a PR, [pr](https://aihero.dev/skills-pr) shapes its body.
 
 **`code-review` says it cannot see my changes.**
 
@@ -88,10 +88,10 @@ Only if those observations were actually made. The close-out compares behavior w
 
 ## Where it fits
 
-`implement` is the build step of the main chain, second from the end:
+`implement` is the build step of the main chain:
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review
+grill-with-docs → to-spec → to-tickets → implement → code-review → retro
 ```
 
 Its neighbours are [to-tickets](https://aihero.dev/skills-to-tickets), which supplies scoped outcomes, readiness, and dependencies; [tdd](https://aihero.dev/skills-tdd), which it uses at agreed seams; and [code-review](https://aihero.dev/skills-code-review), which checks the actual implementation diff. It recovers the accepted plan and checks its completion evidence without turning every implementation into another design interview.
