@@ -95,7 +95,7 @@ The skill stops at the artifact; it does not dispatch a queue. Choose ready work
 `to-tickets` is a step in the main build chain:
 
 ```txt
-grill-with-docs → to-spec → to-tickets → implement → code-review
+grill-with-docs → to-spec → to-tickets → implement → code-review → retro
 ```
 
-Upstream is [to-spec](https://aihero.dev/skills-to-spec), which supplies the decisions and known gaps to slice against; related synthesis phases can stay together. Downstream is [implement](https://aihero.dev/skills-implement), which builds the authorized deliverable, driving [tdd](https://aihero.dev/skills-tdd) at agreed seams and closing with [code-review](https://aihero.dev/skills-code-review). When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.
+Upstream is [to-spec](https://aihero.dev/skills-to-spec), which supplies the decisions and known gaps to slice against; related synthesis phases can stay together. Downstream is [implement](https://aihero.dev/skills-implement), which builds the authorized deliverable, driving [tdd](https://aihero.dev/skills-tdd) at agreed seams and closing with [code-review](https://aihero.dev/skills-code-review). For parallel execution, [implement-spec](https://aihero.dev/skills-implement-spec) reads the same graph and coordinates the authorized, ready frontier on one integration branch. When you're unsure which skill or flow fits, [ask-matt](https://aihero.dev/skills-ask-matt) routes you.

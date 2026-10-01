@@ -37,7 +37,38 @@ without changing Skill behavior. Entries below track subsequent implementations.
 `Candidate` means a local implementation awaiting behavioral and owner review;
 it is not a released or installed change.
 
-## Baseline
+## Current synchronization (2026-10-01)
+
+Review branch for [maintenance issue #39](https://github.com/Ghroth6/skills/issues/39):
+
+- Fork main verified at [`f592378`](https://github.com/Ghroth6/matt_skills/commit/f592378087a981d12fe108782a936782a72244ce).
+  PRs #4 and #5 are merged; P001-P006 remain implemented. The old local
+  September 22 checkout was not the current main.
+- Integrate upstream [`d81f3a1`](https://github.com/mattpocock/skills/commit/d81f3a183412e71a5b1e84ca21bc1a35eea03a60),
+  21 commits after the common upstream base `c55ee46`. Its release PR says
+  v1.3, but package and plugin metadata still say `1.2.3`; preserve that metadata.
+- **Adopt:** promote `implement-spec`, `pr`, and `retro` into Engineering;
+  remove `resolving-merge-conflicts` and retain its archived docs; migrate
+  active domain references and templates to `GLOSSARY.md`/`GLOSSARY-MAP.md`.
+- **Adapt:** carry P002/P003/P004 into `implement-spec` directly. Its
+  implementers call `tdd`, not the user-invoked `implement`, so source recovery,
+  readiness, acceptance evidence, and bounded execution need an explicit
+  contract there. Serialize integration, reassess invalidated premises, and
+  distinguish dependency evidence from tracker closure. Preserve P006's
+  device-verification boundary in parallel close-out.
+- **Preserve:** all six personalizations, the fork installation route, and
+  user-invoked routing boundaries. `retro` is a recommendation after a build,
+  not an automatic invocation. Preserve historical replays and pinned links.
+
+Seven merge conflicts were resolved by intent; the cleanly merged `ask-matt`
+docs also needed their obsolete experimental `pr` description removed.
+Current checks and bounded behavior evaluation are recorded in the
+[sync validation report](docs/research/upstream-sync-validation-20261001.md).
+This is a review-branch integration, not owner approval to merge or install.
+Existing installations and other projects' old glossary files need separate
+updates; source removal does not demonstrate removal of an installed skill.
+
+## Historical baseline (2026-09-22)
 
 Reviewed on 2026-09-22 for [maintenance issue #37](https://github.com/Ghroth6/skills/issues/37):
 
