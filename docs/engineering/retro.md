@@ -8,7 +8,16 @@ It changes the environment, not the code. The bug the agent shipped, the file it
 
 You invoke this by typing `/retro`, and the agent won't reach for it on its own.
 
-Reach for it at the end of a session that felt harder than it should have: the agent went looking for something for too long, made a mistake a machine could have caught, or needed information it had no way to get. A smooth session has little to teach; a painful one is where the findings are. If what you want is a verdict on the code the session produced, use [code-review](https://aihero.dev/skills-code-review) instead.
+Reach for it at the end of a session that felt harder than it should have:
+
+| Your situation | Reach for |
+| --- | --- |
+| The agent spent too long finding a file or fact | `/retro` for navigation improvements |
+| A machine could have caught the mistake | `/retro` for a deterministic check |
+| Required information was unavailable to the agent | `/retro` for a way to make that evidence accessible |
+| You want a verdict on the code produced | [code-review](https://aihero.dev/skills-code-review) |
+
+A smooth session has little to teach; a painful one is where the findings are.
 
 ## Where the findings land
 

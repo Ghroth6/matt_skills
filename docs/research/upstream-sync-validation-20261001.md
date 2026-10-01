@@ -20,6 +20,18 @@ Merge and installation remain owner decisions.
 - The target's release PR is titled v1.3, while package/plugin metadata remains
   `1.2.3`. This integration retains that metadata rather than inventing a release.
 
+## Installed-copy snapshot
+
+Read-only comparison of 12 relevant installed `SKILL.md` files on this computer
+found all 12 matching fork main `f592378` after line-ending normalization:
+`ask-matt`, `diagnosing-bugs`, `wayfinder`, `to-spec`, `to-tickets`, `implement`,
+`implement-spec`, `pr`, `retro`, `resolving-merge-conflicts`, `grilling`, and
+`handoff`. This verifies those bodies only, not every supporting asset or Host.
+In particular, the new parallel contract and GLOSSARY changes are not installed,
+and the retired merge-conflict skill still exists locally. Unchanged bodies,
+such as `retro`, also match the new source and do not establish an installation
+refresh. The installed files were not edited.
+
 ## Changes and preserved contracts
 
 Promote `implement-spec`, `pr`, and `retro`; remove the dedicated merge-conflict
@@ -87,4 +99,12 @@ improves real-world reliability.
   installed/discoverable in this environment. The membership and version checks
   above do not stand in for the official validator.
 
-Independent review is pending the local merge checkpoint.
+Two independent reviewers examined `f592378...2c1cfc5`, one for Standards and
+one for Spec, without editing the candidate. Standards found one low-priority
+docs convention issue: retro's trigger choices belonged in a table. Spec found
+one substantive documentation defect inherited from upstream's mechanical
+rename: domain-modeling's FAQ compared GLOSSARY with itself and still described
+the rename as unsettled. Both were corrected; the FAQ now explains deliberate
+project migration and the absence of old-name aliases. Neither reviewer found
+another substantive skill-contract issue. Focused readback verified the fixes;
+these reviews do not supply the unavailable official plugin validation.
