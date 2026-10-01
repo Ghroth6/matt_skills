@@ -39,34 +39,37 @@ it is not a released or installed change.
 
 ## Current synchronization (2026-10-01)
 
-Review branch for [maintenance issue #39](https://github.com/Ghroth6/skills/issues/39):
+Merged into `main` via [PR #6](https://github.com/Ghroth6/matt_skills/pull/6)
+on 2026-10-01 at 06:29:41 UTC, merge commit
+[`55f94cb`](https://github.com/Ghroth6/matt_skills/commit/55f94cb9b79beb24ed4e4b36a32e3b784f61ad65).
+[Maintenance issue #39](https://github.com/Ghroth6/skills/issues/39) is completed.
 
-- Fork main verified at [`f592378`](https://github.com/Ghroth6/matt_skills/commit/f592378087a981d12fe108782a936782a72244ce).
+- Pre-integration fork main: [`f592378`](https://github.com/Ghroth6/matt_skills/commit/f592378087a981d12fe108782a936782a72244ce).
   PRs #4 and #5 are merged; P001-P006 remain implemented. The old local
   September 22 checkout was not the current main.
-- Integrate upstream [`d81f3a1`](https://github.com/mattpocock/skills/commit/d81f3a183412e71a5b1e84ca21bc1a35eea03a60),
+- Integrated upstream [`d81f3a1`](https://github.com/mattpocock/skills/commit/d81f3a183412e71a5b1e84ca21bc1a35eea03a60),
   21 commits after the common upstream base `c55ee46`. Its release PR says
-  v1.3, but package and plugin metadata still say `1.2.3`; preserve that metadata.
-- **Adopt:** promote `implement-spec`, `pr`, and `retro` into Engineering;
-  remove `resolving-merge-conflicts` and retain its archived docs; migrate
+  v1.3, but package and plugin metadata still say `1.2.3`; that metadata is
+  retained.
+- **Adopted:** promoted `implement-spec`, `pr`, and `retro` into Engineering;
+  removed `resolving-merge-conflicts` and retained its archived docs; migrated
   active domain references and templates to `GLOSSARY.md`/`GLOSSARY-MAP.md`.
-- **Adapt:** carry P002/P003/P004 into `implement-spec` directly. Its
+- **Adapted:** carried P002/P003/P004 into `implement-spec` directly. Its
   implementers call `tdd`, not the user-invoked `implement`, so source recovery,
-  readiness, acceptance evidence, and bounded execution need an explicit
-  contract there. Serialize integration, reassess invalidated premises, and
-  distinguish dependency evidence from tracker closure. Preserve P006's
-  device-verification boundary in parallel close-out.
-- **Preserve:** all six personalizations, the fork installation route, and
+  readiness, acceptance evidence, and bounded execution have an explicit
+  contract there. Integration is serialized, invalidated premises are
+  reassessed, and dependency evidence is distinguished from tracker closure.
+  P006's device-verification boundary is preserved in parallel close-out.
+- **Preserved:** all six personalizations, the fork installation route, and
   user-invoked routing boundaries. `retro` is a recommendation after a build,
-  not an automatic invocation. Preserve historical replays and pinned links.
+  not an automatic invocation. Historical replays and pinned links are retained.
 
 Seven merge conflicts were resolved by intent; the cleanly merged `ask-matt`
 docs also needed their obsolete experimental `pr` description removed.
-Current checks and bounded behavior evaluation are recorded in the
+Pre-merge checks and bounded behavior evaluation are recorded in the historical
 [sync validation report](docs/research/upstream-sync-validation-20261001.md).
-This is a review-branch integration, not owner approval to merge or install.
-Existing installations and other projects' old glossary files need separate
-updates; source removal does not demonstrate removal of an installed skill.
+Installation updates and other projects' glossary migration remain separate
+and unverified; source removal does not demonstrate removal of an installed skill.
 
 ## Historical baseline (2026-09-22)
 
@@ -174,10 +177,11 @@ when blocked; that does not make its implementation ready.
 **Rationale:** A plausible route is a revisable hypothesis. Planning should
 keep unknowns visible instead of silently turning them into commitments.
 
-**Open design:** Determine where an additional readiness check changes actual
-behavior beyond the existing bounded-destination and fog guidance.
+**Historical open design (before implementation):** Determine where an
+additional readiness check changes actual behavior beyond the existing
+bounded-destination and fog guidance.
 
-**Candidate:** `wayfinder`, `to-spec`, and `to-tickets` distinguish precise
+**Implementation:** `wayfinder`, `to-spec`, and `to-tickets` distinguish precise
 decision questions, evidence-supported implementation, readiness, and dependency
 completion. Spec length is driven by agreed behavior and acceptance examples.
 Generated work is not automatically ready. The existing tracker vocabulary
@@ -207,10 +211,11 @@ evidence in a fresh session without guessing missing product intent.
 **Rationale:** References preserve access to primary evidence across stages;
 repeated prose summaries can lose constraints even when each looks coherent.
 
-**Open design:** Establish bounded source loading and a useful fidelity check
-without requiring every agent to read the entire project history.
+**Historical open design (before implementation):** Establish bounded source
+loading and a useful fidelity check without requiring every agent to read the
+entire project history.
 
-**Candidate:** `to-spec`, `to-tickets`, `implement`, and `handoff` preserve
+**Implementation:** `to-spec`, `to-tickets`, `implement`, and `handoff` preserve
 material corrections, exclusions, rationale, and acceptance examples through
 specific source references. Implementation reads the current task/comments and
 expands only relevant references; unavailable unrelated history does not block
@@ -229,7 +234,7 @@ has not been adopted by this fork.
 **Problem:** Fixed context thresholds and mandatory switches can discard useful
 reasoning, while a single visible session may already contain host compactions.
 
-**Candidate:** `ask-matt` and its phase reference favor coherent related phases
+**Implementation:** `ask-matt` and its phase reference favor coherent related phases
 and fresh context for independent outcomes, with saved sources as the recovery
 entry. Wayfinder retains one-ticket stopping by default. Explicit user-requested
 continuation saves the resolution and rechecks blockers/claims before one next
@@ -248,7 +253,7 @@ unchanged.
 **Problem:** Repeating settled questions or escalating delegated reversible
 details spends human attention without resolving product uncertainty.
 
-**Candidate:** `grilling` bounds its tree to the agreed decision, reuses settled
+**Implementation:** `grilling` bounds its tree to the agreed decision, reuses settled
 answers, and states significant delegated defaults. Material behavior, scope,
 data consequences, external commitments, and hard-to-reverse tradeoffs remain
 human decisions. Shared understanding and user confirmation remain the stop
@@ -266,7 +271,7 @@ maintainer's shared-understanding position in
 **Problem:** A mandatory fast agent-only repro can cause irrelevant mocks or
 block useful inspection when the actual failure needs slow equipment/manual work.
 
-**Candidate:** `diagnosing-bugs` starts with a useful inspection and reserves its
+**Implementation:** `diagnosing-bugs` starts with a useful inspection and reserves its
 full loop for difficult defects. Provisional hypotheses may construct the loop;
 slow structured human runs can supply real failure evidence. Missing access
 keeps verification incomplete. Host substitutes alone cannot establish a device
@@ -276,13 +281,14 @@ fix, and no exception grants device or production-write permission.
 in [issue #578](https://github.com/mattpocock/skills/issues/578). The concrete
 hardware and verification rules are downstream choices, not upstream approval.
 
-## Candidate validation and future reconciliation
+## Validation and future reconciliation
 
 The [local scope](docs/research/personal-workflow-candidate.md),
 [upstream review](docs/research/personal-workflow-upstream-review-20260923.md), and
-[replay fixtures](docs/research/personal-workflow-replay-cases.md) define this
-candidate. The [validation report](docs/research/personal-workflow-validation-20260923.md)
-records behavioral results separately from owner acceptance.
+[replay fixtures](docs/research/personal-workflow-replay-cases.md) document the
+candidate evaluated before owner acceptance. The
+[validation report](docs/research/personal-workflow-validation-20260923.md)
+records those behavioral results separately from owner acceptance.
 
 On an upstream update, compare affected skills, human docs, and router entries
 against P001-P006. Retire a local patch when upstream solves its actual problem.
