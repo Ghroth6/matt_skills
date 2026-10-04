@@ -29,7 +29,7 @@ The route most work travels. You have an idea and want it built.
 
    When the work goes up as a pull request, **`/pr`** shapes the body: a visual summary, before/after evidence, and merge risk. It is a model-invoked reference; publication and merging follow the project's workflow and the user's authorization.
 
-4. **`/retro`** is the user-invoked follow-up after a build. It suggests improvements to the agent's environment, prioritizing deterministic checks for mechanical mistakes and coding standards for judgement calls. Recommend it when useful; its place in the flow does not authorize invoking it or applying its suggestions.
+4. **`/retro`** is the user-invoked follow-up after work worth learning from. It traces user corrections and avoidable rework before proposing decision, workflow, or environment improvements. Mechanical mistakes still call for deterministic checks; guidance for earlier decisions belongs at that decision point. Recommend it when useful; its place in the flow does not authorize invoking it or applying its suggestions.
 
 ### Context hygiene
 

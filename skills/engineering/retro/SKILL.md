@@ -4,15 +4,19 @@ description: "Conduct a retrospective on a coding session."
 disable-model-invocation: true
 ---
 
-The user has asked for a **retrospective**. You are suggesting improvements to the coding agent's **environment** to improve future runs.
+The user has asked for a **retrospective**. Explain avoidable rework and suggest improvements to the agent's decisions, workflow, and environment. Propose candidates; do not apply them as part of the retrospective.
 
 ## Steps
 
 1. Call the Skill tool with `writing-for-agents` for the writing style guide.
 
-2. Read the primary sources for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one.
+2. Read the primary sources for the session the user specifies. This may mean searching through session logs on this machine. If the user doesn't specify a session, default to the current one. Establish what evidence is available and name any gaps that limit the retrospective.
 
-3. Look for candidates for improvement in these categories.
+3. Trace material user corrections and repeated interventions before choosing remedies. For each, identify what was known at the time, what the agent decided or did, the resulting rework, and the earliest action that could have avoided it. Distinguish newly supplied requirements from previously available instructions or evidence that were missed or left unapplied. After a confirmed principle, inspect whether related instances in the agreed scope were addressed. Ground each causal claim in a specific exchange or artifact; mark uncertain causes as hypotheses. Done when the material interventions are accounted for, including justified changes of direction, without inventing failures to fill a category.
+
+4. Use the causes to select candidates in these categories. If a current instruction already covers the behavior, determine whether it was unavailable, not reached, unclear, or not followed before proposing more prose.
+
+- **Decision and workflow**: would an earlier scope check, necessity decision, source assessment, or walk through actual use have prevented the rework? Put the remedy at the point of decision. Reusable task procedures can belong in a Skill; essential cross-task steering may justify a short always-loaded instruction. Keep project facts in their existing project sources. _Use when_ the agent had enough information but made or retained an unsuitable choice.
 
 - **Navigation**: how easy was it for the agent to find the right files? Are there hidden dependencies between files? Would a **navigation pointer** make it easier? _Use when_ the session took a long time to find a piece of information.
 - **Automated checks**: are there automated checks that could catch errors the agent made? Linting, typing, tests, filesystem linters? Read the repo's own check command first (its `package.json`/build-tool `lint`/`check` scripts, its CI workflow), so a check that already exists but sits unwired or silently broken is the finding, not a reinvention. A repo with no **guardrail** (no pre-commit hook and no CI job running its lint/typecheck/test command) is itself a finding: an un-linted repo is a standing missed opportunity, not a neutral default. _Use when_ the agent made a mistake an automated check could have caught, or the repo has no guardrail at all.
@@ -22,7 +26,7 @@ The user has asked for a **retrospective**. You are suggesting improvements to t
 - **No-ops**: look for instructions in steering files that don't modify the agent's behavior. _Use when_ the steering files are large and unwieldy.
 - **Information access**: look for opportunities to increase the agent's access to information. Teeing dev server logs, readonly access to third-party services. _Use when_ a crucial piece of information was not available to the agent.
 
-4. Present these candidates to the user, in order of severity.
+5. Present candidates in order of observed impact and recurrence risk, not category order. For each, give the supporting moment, the earlier behavior to change, its appropriate home, and a concrete way to test it. Separate execution mistakes from failures to apply known intent; missing information limits the conclusion. Done when the user can trace and assess each candidate without authorizing its implementation.
 
 ## Reference
 
@@ -32,7 +36,7 @@ Remember that all work goes through two stages: implementation and review. The i
 
 The review agent has the least context pressure - it receives a diff, so no exploration needed. It often does not need to write code or debug.
 
-This means that the review agent should be responsible for imposing coding standards, not the implementation agent.
+Put review-only coding standards where the reviewer can enforce them. Decisions that shape scope, dependency selection, or the user's first-use path need their guidance before implementation; a later review cannot replace that decision.
 
 ### Files
 
