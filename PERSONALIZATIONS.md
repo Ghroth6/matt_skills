@@ -281,6 +281,24 @@ fix, and no exception grants device or production-write permission.
 in [issue #578](https://github.com/mattpocock/skills/issues/578). The concrete
 hardware and verification rules are downstream choices, not upstream approval.
 
+## P007: Correction-led retrospectives
+
+**Status:** Candidate; source and evaluation await owner review and merge.
+
+**Problem:** An environment-first retrospective can prioritize checks while
+missing why the owner repeatedly had to explain consequences of known intent.
+
+**Implementation:** `retro` traces material interventions, what was known at
+the time, and the earliest preventive action before selecting remedies. It
+distinguishes new requirements from missed instructions, checks existing rules,
+and ranks candidates by impact and recurrence risk. Guidance for decisions
+belongs before implementation, while review-only standards remain in review.
+Its docs and the `ask-matt` route describe the same scope. User invocation and
+proposal-only behavior are unchanged.
+
+**Validation:** See the [candidate evaluation](docs/research/retro-correction-evaluation.md).
+This is a downstream candidate, not an upstream claim or installed behavior.
+
 ## Validation and future reconciliation
 
 The [local scope](docs/research/personal-workflow-candidate.md),

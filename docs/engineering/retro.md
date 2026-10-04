@@ -1,8 +1,8 @@
 ## What it does
 
-`retro` looks back over a coding [session](https://www.aihero.dev/ai-coding-dictionary/session) and suggests improvements to the agent's **[environment](https://www.aihero.dev/ai-coding-dictionary/environment)**, so the next run goes better. It reads the session's own record (the current one by default, or one you point it at in the session logs), finds the moments the agent struggled, and hands you a list of candidate fixes, most severe first.
+`retro` looks back over a coding [session](https://www.aihero.dev/ai-coding-dictionary/session) and traces user corrections and avoidable rework before suggesting improvements to the agent's decisions, workflow, and **[environment](https://www.aihero.dev/ai-coding-dictionary/environment)**. It distinguishes requirements learned later from instructions or evidence already available when the agent made a choice.
 
-It changes the environment, not the code. The bug the agent shipped, the file it took twenty [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) to find, the rule the reviewer missed: `retro` doesn't fix any of them in place. It asks what about the repo let them happen, and proposes the check, the pointer, or the standard that stops them happening again. It also only proposes; nothing changes until you pick a candidate.
+It reads the session's own record and returns evidence-backed candidates ordered by impact and recurrence risk. The bug the agent shipped, the file it took twenty [tool calls](https://www.aihero.dev/ai-coding-dictionary/tool-call) to find, or the principle it applied to only one folder each needs a remedy at the point the failure arose. It only proposes; nothing changes until you pick a candidate.
 
 ## When to reach for it
 
@@ -12,6 +12,7 @@ Reach for it at the end of a session that felt harder than it should have:
 
 | Your situation | Reach for |
 | --- | --- |
+| You repeatedly had to point out consequences of an already agreed principle | `/retro` to trace missed decisions and their scope |
 | The agent spent too long finding a file or fact | `/retro` for navigation improvements |
 | A machine could have caught the mistake | `/retro` for a deterministic check |
 | Required information was unavailable to the agent | `/retro` for a way to make that evidence accessible |
@@ -21,10 +22,11 @@ A smooth session has little to teach; a painful one is where the findings are.
 
 ## Where the findings land
 
-Each candidate belongs to one category, and the category decides where the fix goes:
+Each candidate starts with a specific moment: what was known, what the agent did, what rework followed, and what earlier action could have prevented it. These categories help choose where a remedy belongs; they do not determine priority:
 
 | What went wrong in the session | Fix it with |
 | --- | --- |
+| Known intent did not shape the initial choice or its related cases | Guidance at that decision point, or a reusable task Skill |
 | The agent took a long time to find a file or fact | A **navigation pointer** from a file it already reads |
 | It made a mistake a tool could have caught | An **[automated check](https://www.aihero.dev/ai-coding-dictionary/automated-check)**: lint rule, type, test, pre-commit hook, CI job |
 | The reviewer missed a judgement-call mistake | A rule in `CODING_STANDARDS.md` for the reviewer agent |
@@ -33,11 +35,15 @@ Each candidate belongs to one category, and the category decides where the fix g
 | A steering file is full of lines that change nothing | Delete the **no-ops** |
 | The agent needed information it couldn't reach | Widen its access: tee the dev server log to a file, give read-only access to a service |
 
-The leading idea is that standards belong to the **reviewer**, not the implementer. The implementing agent carries the most context pressure: it explores, writes code, and debugs failures. The reviewing agent receives a diff and nothing else. So a new rule goes where there is room to apply it, in review, and never in [AGENTS.md](https://www.aihero.dev/ai-coding-dictionary/agents-md), which loads into every session's [context window](https://www.aihero.dev/ai-coding-dictionary/context-window) whether it's relevant or not.
+Review-only standards belong with the **reviewer**. Scope, dependency selection, and first-use design need guidance before implementation. A task-specific procedure can live in a Skill; an essential cross-task rule may justify a short instruction in [AGENTS.md](https://www.aihero.dev/ai-coding-dictionary/agents-md), whose cost is paid in every session's [context window](https://www.aihero.dev/ai-coding-dictionary/context-window). If a rule already exists, investigate whether the agent reached and applied it before adding another.
 
 Before any rule gets written, the violation is classified. A **mechanical** one (a banned API, an import shape, a file-location rule) gets a deterministic check, because a check can fail and a sentence in a standards file can't. Only genuine judgement calls, the kind no linter could ever enforce, become prose. A repo with no guardrail at all (no pre-commit hook, no CI job running lint, typecheck, and tests) is reported as a finding in its own right.
 
 ## Common questions
+
+**Why did I have to keep correcting the agent when the principle was already clear?**
+
+That is part of the retrospective. It follows the corrections and checks whether the agent applied each confirmed principle across the agreed scope. It also separates genuinely new requirements from missed earlier evidence, so it does not blame the agent for information it could not yet have known. A cause that the record cannot establish stays a hypothesis.
 
 **Does it write the lint rule itself, or wait for a yes? Can I wire it to run after every session?**
 
@@ -57,7 +63,7 @@ By default it reviews the current session, which is the best case: the struggles
 
 **The agent keeps making the same mistake. Should I add a line to `CLAUDE.md`?**
 
-Usually not, and that's the most common place `retro` pushes back. A line in `CLAUDE.md` is loaded into every session, dilutes everything else in the file, and drifts as the code changes. If the mistake is mechanical, the fix is a check that fails. If it's a judgement call, it goes in the coding standards the reviewer reads. `AGENTS.md` and `CLAUDE.md` are for navigation pointers, and little else. For the same reason `retro` is not a [memory system](https://www.aihero.dev/ai-coding-dictionary/memory-system): it doesn't store what happened, it changes the environment so it can't happen again.
+First check whether an existing instruction already covers it. A mechanical mistake calls for a failing check, a review-only judgement belongs in standards, and a decision made during execution needs guidance at that point. Keep always-loaded instructions short and reserve them for essential cross-task behavior. `retro` is not a [memory system](https://www.aihero.dev/ai-coding-dictionary/memory-system): it proposes changes and tests them in later work rather than treating a new sentence as proof of improvement.
 
 **My setup mentions `CODING_STANDARDS.md` and I don't have one. Where does it come from?**
 
@@ -65,11 +71,13 @@ Nothing ships the file. The first time a session turns up a judgement-call rule 
 
 **How is it different from `improve-codebase-architecture`?**
 
-The input. [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) needs nothing but the code and looks for structural improvements to it. `retro` needs a session history, and improves the environment the agent works in rather than the code. They sit side by side; neither replaces the other.
+The input. [improve-codebase-architecture](https://aihero.dev/skills-improve-codebase-architecture) needs nothing but the code and looks for structural improvements to it. `retro` needs a session history and proposes changes to the agent's decisions, workflow, or environment. They sit side by side; neither replaces the other.
 
 ## It's working if
 
 - Every candidate points back to a specific moment in the session, not a generic best practice.
+- Repeated user corrections are explained using what was known at the time, and genuinely new requirements are identified separately.
+- Each candidate names an earlier behavior to change and a concrete test; existing rules are inspected before more are proposed.
 - Repeat mistakes turn into failing checks, and your `AGENTS.md` gets shorter over time rather than longer.
 - A missing check that already existed but sat unwired shows up as the finding, rather than a proposal to build a new one.
 - The next session on the same kind of task finds its way faster.
