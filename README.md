@@ -12,6 +12,12 @@
 
 [![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
+## About this fork / 关于本仓库
+
+本仓库是 [Ghroth6/matt_skills](https://github.com/Ghroth6/matt_skills)，fork 自 [mattpocock/skills](https://github.com/mattpocock/skills)。Skills 的原作者是 Matt Pocock，下文保留上游的理念与使用说明。
+
+当前 Skill 内容采用上游标准发布版 **v1.3.1**，不包含此前的个人行为改写。本 README 补充 fork 的说明和获取方式；使用时从本 fork 拉取、安装，版本以本 fork 已同步的发布版为准。
+
 My agent skills that I use every day to do real engineering - not vibe coding.
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
@@ -22,64 +28,49 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 [Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
-## Installation (30-second setup)
+## 获取与安装
 
-Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
-
-### 1. Get the skills
-
-<details>
-<summary><strong>Claude Code</strong></summary>
+### 1. 从本 fork 获取仓库
 
 ```bash
-claude plugins install mattpocock-skills
+git clone https://github.com/Ghroth6/matt_skills.git
+cd matt_skills
 ```
 
-Or, from inside a session:
-
-```
-/plugin install mattpocock-skills
-```
-
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
-
-</details>
-
-<details>
-<summary><strong>Codex, and other agents</strong></summary>
+已有克隆时，在仓库目录中拉取本 fork 的更新：
 
 ```bash
-npx skills@latest add mattpocock/skills
+git pull --ff-only origin main
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
+`git pull` 更新仓库文件。通过下面的安装器复制出去的 Skills，需要重新安装才能更新。
 
-A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
+### 2. 安装已发布的 Skills 到 Codex
 
-</details>
+发布范围以 [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) 的 `skills` 清单为准，v1.3.1 共 **27 个**。仓库中还保留上游未发布的目录，因此不要在安装器中直接全选全部发现的 Skills。
 
-<details>
-<summary><strong>For tinkerers</strong></summary>
+在刚拉取的仓库根目录运行以下 PowerShell 命令，需要已安装 Git 和 Node.js/npm：
 
-Use the same installer, on any agent, including Claude Code:
+```powershell
+$publishedSkills = (Get-Content .claude-plugin/plugin.json -Raw | ConvertFrom-Json).skills |
+    ForEach-Object { ($_ -split '/')[-1] }
+$forkRevision = git rev-parse HEAD
+npx skills@latest add "https://github.com/Ghroth6/matt_skills/tree/$forkRevision" --global --agent codex --skill $publishedSkills
+```
+
+这会从本 fork 与当前克隆一致的提交安装清单内的 Skills，安装范围为当前用户的 Codex。后续更新时，先拉取本 fork，再运行同一段命令。旧版本中已退出发布清单的 Skills 需要另行卸载，重新安装不会自动清理它们。
+
+若希望交互式挑选，使用：
 
 ```bash
-npx skills@latest add mattpocock/skills
+npx skills@latest add Ghroth6/matt_skills --global --agent codex
 ```
 
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+只选择发布清单内的 Skills，并包含 `setup-matt-pocock-skills`。Claude Code 官方市场中的 `mattpocock-skills` 来自上游，不会跟随本 fork；其使用方法见[上游安装说明](https://github.com/mattpocock/skills#installation-30-second-setup)。
 
-</details>
+### 3. 在每个项目运行一次 `/setup-matt-pocock-skills`
 
-### 2. Run `/setup-matt-pocock-skills`
-
-In your agent, run it once per repo. It will:
-
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
-- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
-- Ask you where you want to save any docs we create
-
-### 3. Bam - you're ready to go.
+它会配置项目的 issue tracker、triage labels 和文档目录。安装 Skills 与配置项目是两个步骤。
 
 ## Why These Skills Exist
 
