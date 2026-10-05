@@ -1,67 +1,61 @@
 # The canonical install block
 
-Use these commands in current fork instructions. Change them here first, then
-propagate to `README.md` and any current installation examples. Historical
-changelog entries and upstream release records retain their original commands.
+One install story, one wording. `README.md`, `.changeset/*`, and every page under `docs/` must say **this** and nothing else. Change it here first, then propagate.
 
-## Install for the current user
+`mattpocock-skills` is listed in **Claude Code's official marketplace** (configured name `claude-plugins-official`, source repo `anthropics/claude-plugins-official`), which every Claude Code install has out of the box. There is no marketplace to add first. Official Anthropic marketplaces have auto-update enabled by default ([discover-plugins](https://code.claude.com/docs/en/discover-plugins)), so "updates arrive automatically" is a true claim, not a hope.
 
-Codex, Claude Code, and other supported agents use the same `skills` installer.
-The source is this fork's reviewed default branch, `main`.
+## Claude Code: the plugin
+
+<canonical-block name="claude-code">
+
+```bash
+claude plugins install mattpocock-skills
+```
+
+Or, from inside a session:
+
+```
+/plugin install mattpocock-skills
+```
+
+It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
+
+</canonical-block>
+
+## Codex, and other agents: skills.sh
+
+The plugin is Claude Code only. Everywhere else, [skills.sh](https://skills.sh/mattpocock/skills) copies editable skill files into the project. Use the whole-set form on `README.md`:
 
 <canonical-block name="skills-sh-whole-set">
 
 ```bash
-npx skills add Ghroth6/matt_skills -g
+npx skills@latest add mattpocock/skills
 ```
 
-Select all skills and choose the agents you use. All includes the experimental
-and optional buckets. Same-name skills in the same scope are replaced and
-their recorded source becomes this fork; no preliminary uninstall is needed.
+Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take: make sure `setup-matt-pocock-skills` is one of them.**
 
 </canonical-block>
 
-## Update installed copies
-
-<canonical-block name="skills-sh-update">
-
-```bash
-npx skills update -g
-```
-
-</canonical-block>
-
-This updates all global skills from their recorded sources. Re-run the install
-command to refresh only this fork's selected skills or change agents. Each
-computer has its own installed copies. This operation does not sync Matt's
-upstream changes into the fork; see [PERSONALIZATIONS.md](../PERSONALIZATIONS.md#maintenance-policy).
-
-## One skill
+…and the single-skill form wherever one skill is named on its own. Note that **`docs/` pages are not a consumer of this block**: ai-hero renders the install widget above the body, so a page that writes the commands out duplicates it. See [writing-docs.md](./writing-docs.md).
 
 <canonical-block name="skills-sh-one-skill">
 
 ```bash
-npx skills add Ghroth6/matt_skills --skill <name> -g
+npx skills@latest add mattpocock/skills --skill=<name>
 ```
 
 ```bash
-npx skills update <name> -g
+npx skills@latest update <name>
 ```
 
 </canonical-block>
 
-Remove an old installed name after a rename or retirement:
+`skills@latest` is the pinned spelling in all three. The pages under `docs/` used to carry their own copy of these commands; those blocks are now deleted rather than corrected, because the site renders the install commands itself.
 
-```bash
-npx skills remove <name> -g
-```
+## The two routes are exclusive
 
-## Distribution boundaries
+The plugin is a managed, read-only bundle you subscribe to. skills.sh writes files you own and edit. Installing both leaves the user with every skill twice: always say "pick one".
 
-Use the README as this fork's installation entry. The `docs/` pages retain
-upstream's rendering format; their install widgets on `aihero.dev` describe
-upstream. See [writing-docs.md](./writing-docs.md).
+## Not the install story
 
-The official `mattpocock-skills` Claude plugin installs upstream. Keep one
-installation route per agent. The inherited plugin manifests and package
-version remain upstream metadata; this fork's user workflow uses `skills`.
+`.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace (`/plugin marketplace add mattpocock/skills`, then `/plugin install mattpocock-skills@mattpocock`). The official listing supersedes it. It is kept as a fallback for installing the repo directly (an unreleased commit, or a fork), and is **not** documented to users.

@@ -1,6 +1,6 @@
 ## What it does
 
-`grilling` is the interview loop that stress-tests a plan, a decision, or an idea before anyone acts on it. It maps the agreed scope as a **design tree**: decisions with other decisions depending on them. The goal remains shared understanding, with material choices settled, delegated implementation choices stated, and deferred questions visible.
+`grilling` is the interview loop that stress-tests a plan, a decision, or an idea before anyone acts on it. It maps the subject as a **design tree**: every decision branches into the decisions that hang off it, and interviews you branch by branch until nothing is left silently assumed.
 
 It does not ask one question at a time, and it does not ask everything at once. Each **round** asks the whole **frontier**: every decision whose prerequisites are already settled, and nothing else. Two questions never share a round if one depends on the other; a question that hinges on an answer still open belongs to a later round. Your answers settle decisions, the frontier moves outward, and the next round asks what that unblocked. Thirteen questions typically land in about three rounds rather than thirteen.
 
@@ -26,9 +26,7 @@ The **design tree** is the model of the subject: decisions with decisions hangin
 
 Inside a round every question arrives in a fixed shape: numbered and titled behind a `❓`, then the body, then the agent's recommended answer alone on a `➡️` line. That is what makes a round answerable by number ("1 yes, 2 the second option, 3 no, here's why") instead of by quoting questions back. The format has one known rough edge: the recommendation sometimes argues *against* the question as it was worded, so agreeing with the recommendation means answering "no" to the question. When that happens, answer the recommendation and say so.
 
-Facts are the skill's own job: when a question needs something the [environment](https://www.aihero.dev/ai-coding-dictionary/environment) can settle, a [sub-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) investigates it. Only questions downstream of that exploration wait. Material product behavior, scope, data consequences, external commitments, and hard-to-reverse tradeoffs remain yours to decide. The agent waits for your answer rather than substituting its recommendation.
-
-This fork reuses settled answers and ordinary reversible implementation discretion you have delegated. It states significant assumptions instead of spending another question on those choices; an uncertain product requirement cannot be disguised as an implementation default. Unrelated future branches stay deferred. Shared understanding still needs your confirmation before action, and an existing explicit confirmation remains valid unless a material change reopens it.
+The other half of the design is the split between facts and decisions. Facts are the skill's own job: when a frontier question needs something the [environment](https://www.aihero.dev/ai-coding-dictionary/environment) can settle, it dispatches a [sub-agent](https://www.aihero.dev/ai-coding-dictionary/subagent) to go and find out rather than asking you. It does not block on that; only the questions downstream of a running exploration wait. Decisions are yours, and it must wait for them. An agent running `grilling` that answers its own decisions has broken the skill, not interpreted it liberally. The session ends when the frontier is empty, and it will not act on what you agreed until you confirm you have reached a shared understanding.
 
 The honest limit: the frontier is the agent's judgement, not a computed graph. It can put two questions in one round and only afterwards discover that one answer should have changed the other. There is no guard against that beyond telling it, which reopens the affected branch in the next round.
 
@@ -63,13 +61,10 @@ This is the most common objection to the round design, and the frontier is the a
 A confirmation gate exists precisely for this: the skill is not finished when the frontier empties, it is finished when you say the understanding is shared. Weaker and faster [models](https://www.aihero.dev/ai-coding-dictionary/model) still break it; this is reported most often on lower-effort or non-frontier models, which collapse "interview until shared understanding" into a couple of questions and an outline. If yours does it, the reliable fix is a line in your own `AGENTS.md` or `CLAUDE.md` telling the agent not to implement without permission.
 
 **It answered its own questions instead of asking me.**
-That is a failure when the question is a material decision you have not answered or delegated. A surrounding resolve-this-ticket instruction does not authorize the agent to invent your preference. Looking up a fact, reusing your settled answer, or choosing an ordinary reversible implementation detail you delegated is different; those do not require another interview question.
-
-**It keeps asking about things I already settled, or ordinary implementation details.**
-This fork checks the current conversation and relevant sources before asking again. State the discretion you want to delegate; the agent can then choose ordinary reversible details and report significant assumptions. If new evidence genuinely conflicts with an earlier answer, it should explain what changed rather than silently reopening the whole plan.
+That is a bug in the run, not the intended behaviour, and it was the reason facts and decisions were separated in the skill's text. It shows up most when another skill runs `grilling` inside a resolve-this-ticket frame, where the surrounding task reads as licence to keep moving. The same constraint is why there is no async mode: people have asked for a variant that reads a GitHub issue and posts one consolidated decision memo, and that is a different skill, because a grilling session that nobody answers has produced the agent's opinion rather than yours.
 
 **Can I cap the number of questions?**
-The skill has no numeric cap. Some plans need three questions and some need fifty; a fixed ceiling can cut off a material unresolved decision. Steer in plain language, narrow the agreed scope, or explicitly accept the current understanding. Redundant questions should be removed rather than counted toward an arbitrary allowance.
+No, and a cap is deliberately out of scope. Some plans need three questions and some need fifty; a fixed ceiling either truncates the hard case or feels arbitrary on the easy one. Steering in plain language is the intended control: tell it to wrap up, or stop and accept the plan where it stands. If a session is running very long, the cause is usually that the scope was too big; break the work up and grill the pieces.
 
 **I installed `grill-me` on its own and nothing happens.**
 `grill-me` is a one-line skill whose whole body is "run a `/grilling` session", so it needs this skill installed too. The same is true of `grill-with-docs`, which additionally needs [domain-modeling](https://aihero.dev/skills-domain-modeling). Installing the whole set avoids the problem; installing selectively means installing the primitives as well.
@@ -84,8 +79,8 @@ A real and unfixed rough edge, reported across [harnesses](https://www.aihero.de
 - Later rounds ask things the first round could not have asked.
 - It goes and looks facts up (reading files, dispatching a sub-agent) rather than asking you something it could have found out.
 - Research running in the background does not stall the round; only the questions that depend on it wait.
-- It acts on the resulting plan only with your confirmation, reusing an existing explicit confirmation when nothing material changed.
-- Settled answers are reused, delegated implementation choices are stated, and questions remain within the agreed scope.
+- It stops at the end and asks you to confirm the understanding is shared, instead of starting work.
+- Question count stays high while round count stays low.
 
 ## Where it fits
 

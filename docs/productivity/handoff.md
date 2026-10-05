@@ -17,7 +17,7 @@ Four situations are the whole trigger:
 | Sending the work to a colleague | They need something they can read |
 | Forking a side task found mid-phase | You keep working; a second agent takes the fork |
 
-For related phases in the same harness and directory, consider continuing first. A [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) discussion can remain useful during implementation; compact only when the context tradeoff warrants it. [ask-matt](https://aihero.dev/skills-ask-matt) carries the ordered tree over all five options at a phase boundary.
+For anything else (same harness, same directory, you are done [grilling](https://www.aihero.dev/ai-coding-dictionary/grilling) and moving to implementation), `/compact` is the move. [ask-matt](https://aihero.dev/skills-ask-matt) carries the ordered tree over all five options at a phase boundary.
 
 ## Branching is the use people skip
 
@@ -29,25 +29,17 @@ Three of the five options at a phase boundary preserve different things: `/compa
 
 ## What travels, and what doesn't
 
-The document carries the current goal, confirmed corrections and exclusions, implementation location and version, observed verification and its limits, unresolved work, and the next action. Suggestions stay distinct from decisions; superseded interpretations are historical. A **suggested skills** section names what the next agent should reach for. Secrets are redacted before writing.
+The document carries the live thread (what's in flight, why, and what's next) plus a **suggested skills** section naming what the next agent should reach for. Secrets are redacted before it's written.
 
 What it deliberately does not carry is anything already written down. Specs, plans, ADRs, issues, commits and diffs are referenced by path or URL, never copied. That keeps the file small, and it keeps the settled detail in one place instead of two that drift.
-
-In this fork, those pointers must locate the reasons relevant to the next task, not merely a large project index. Inaccessible or unsaved evidence is named as a gap, so the next reader does not mistake an incomplete record for a verified checkpoint.
 
 ## Common questions
 
 **Handoff or compact?**
-- **Continue:** related work still benefits from coherent context.
-- **Compact:** continuing no longer fits, nothing is travelling, and relevant context must be retained.
-- **Handoff:** the work needs to travel. Its advantage is a portable file, not a promise of better summarization.
+`/compact` unless something is travelling. Staying on the same task is a compact, not a handoff: same harness, same directory, and you need to stay in the loop is where the phase-boundary tree lands most days. `/handoff`'s advantage is not that it summarises better; it's that the result is a file you can carry somewhere `/compact` can't reach.
 
 **So what's the actual difference between compact, clear and handoff?**
-- **`/compact`:** replaces conversation detail with a summary.
-- **`/clear`:** removes the active context when it is disposable.
-- **`/handoff`:** writes a portable file referencing the evidence needed elsewhere.
-
-A summary is a **[secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source)**, so preserve access to relevant **[primary sources](https://www.aihero.dev/ai-coding-dictionary/primary-source)**. Even a continuing visible session may already rely on a host summary.
+Three different things being preserved. `/compact` compresses this context and keeps you going in a fresh window: intent survives. `/clear` empties the window and starts from nothing: correct when everything behind you is disposable, and one-way if it isn't. `/handoff` writes a portable file: the work survives the move to somewhere else. Note that all three turn a **[primary source](https://www.aihero.dev/ai-coding-dictionary/primary-source)** (the conversation as it happened) into a **[secondary source](https://www.aihero.dev/ai-coding-dictionary/secondary-source)** (a summary of it). Continuing is the only move that doesn't, which is why it's the first one to rule out.
 
 **Where did my handoff file go?**
 The temp directory, which is the most-reported friction with the skill: the paths are long, they differ per OS, and on Windows agents sometimes take several attempts to find the right one. Ask for the path back and keep it before you move on. Temp is deliberate: a handoff is a transit document, not an artifact you maintain. It is not a durable one either; see the next question.
@@ -65,7 +57,7 @@ Analogous, not identical, and `/branch` isn't a shipped skill here; `/handoff` i
 Ask whether it's true next month. `CLAUDE.md` is standing context about the project, loaded into every session whether it's relevant or not. A handoff is about one piece of work in flight and is dead once that work lands. Facts that keep getting re-explained are a `CLAUDE.md` problem; a half-finished task is a handoff.
 
 **It captures the what, not the why.**
-Tell it what the next session is for so the relevant reasoning survives. This fork carries confirmed corrections and specific source pointers, and distinguishes observations from suggestions and unverified claims. Read back statements such as "Y is done" against the recorded evidence; missing evidence must remain visible rather than becoming a premise for the next agent.
+A fair and repeated criticism. Two things help. Pass the argument (tell it what the next session is for) so the reasoning that bears on *that* is kept rather than flattened. And watch for confident claims the session never actually verified: "X isn't built", "Y is done". The next agent treats the document as a contract and will not re-check it, so a belief written as a fact becomes a false premise for everything that follows. Read the document before you hand it over, and downgrade anything you only assumed.
 
 **Why is it a skill rather than a slash command?**
 Both work; they suit different situations. As a skill it ships and updates through the same install path as everything else here, which is what makes it shareable; the constraint that the agent won't fire it itself is set by its frontmatter rather than by the mechanism.
@@ -74,7 +66,6 @@ Both work; they suit different situations. As a skill it ships and updates throu
 
 - The document is a small fraction of the conversation, and the specs, issues and diffs appear in it as paths and URLs rather than as copied text.
 - You can read it cold, without the original session open, and know what to do next.
-- Confirmed corrections and exclusions survive, and observed verification is separate from work still unverified.
 - The fresh agent starts working instead of asking you to re-explain the setup.
 - In the fork case, your original session is still sitting there untouched when you come back to it.
 - The suggested-skills section names the skill you'd have reached for yourself.
