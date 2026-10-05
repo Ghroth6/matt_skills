@@ -12,12 +12,6 @@
 
 [![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
-## About this fork / 关于本仓库
-
-本仓库是 [Ghroth6/matt_skills](https://github.com/Ghroth6/matt_skills)，fork 自 [mattpocock/skills](https://github.com/mattpocock/skills)。Skills 的原作者是 Matt Pocock，下文保留上游的理念与使用说明。
-
-当前 Skill 内容采用上游标准发布版 **v1.3.1**，不包含此前的个人行为改写。本 README 补充 fork 的说明和安装方式，安装版本以本 fork 已同步的发布版为准。
-
 My agent skills that I use every day to do real engineering - not vibe coding.
 
 Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
@@ -28,17 +22,72 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 [Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
-## 安装
+## Installation (30-second setup)
 
-直接从本 fork 安装到当前用户的 Codex，无需克隆仓库：
+Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
+
+### 1. Get the skills
+
+<details>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
+claude plugins install mattpocock-skills
+```
+
+Or, from inside a session:
+
+```
+/plugin install mattpocock-skills
+```
+
+It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically. This marketplace installation follows upstream; use the installer below to install from this fork.
+
+</details>
+
+<details>
+<summary><strong>Codex, and other agents</strong></summary>
+
+```bash
+npx skills@latest add Ghroth6/matt_skills
+```
+
+Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
+
+To install globally for Codex without choosing an agent interactively:
 
 ```bash
 npx skills@latest add Ghroth6/matt_skills --global --agent codex
 ```
 
-在安装器中只选择 **Mattpocock Skills** 分组的 27 个已发布 Skills，不选择 **Other**。发布清单见 [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)。以后更新时重新运行同一条命令即可。
+For only the 27 published skills, select the **Mattpocock Skills** group and leave **Other** unselected. The published set is listed in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
 
-安装后，在每个项目运行一次 `/setup-matt-pocock-skills`，配置 issue tracker、triage labels 和文档目录。
+A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
+
+</details>
+
+<details>
+<summary><strong>For tinkerers</strong></summary>
+
+Use the same installer, on any agent, including Claude Code:
+
+```bash
+npx skills@latest add Ghroth6/matt_skills
+```
+
+It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+
+</details>
+
+### 2. Run `/setup-matt-pocock-skills`
+
+In your agent, run it once per repo. It will:
+
+- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
+- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
+- Ask you where you want to save any docs we create
+
+### 3. Bam - you're ready to go.
 
 ## Why These Skills Exist
 
