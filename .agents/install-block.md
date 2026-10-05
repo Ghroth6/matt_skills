@@ -1,47 +1,53 @@
 # The canonical install block
 
-One install story, one wording. `README.md`, `.changeset/*`, and every page under `docs/` must say **this** and nothing else. Change it here first, then propagate.
+Use these blocks for this fork's `README.md` and new installation instructions. Change them here first, then propagate. Keep the README categories **Codex, and other agents** and **For tinkerers**.
 
-`mattpocock-skills` is listed in **Claude Code's official marketplace** (configured name `claude-plugins-official`, source repo `anthropics/claude-plugins-official`), which every Claude Code install has out of the box. There is no marketplace to add first. Official Anthropic marketplaces have auto-update enabled by default ([discover-plugins](https://code.claude.com/docs/en/discover-plugins)), so "updates arrive automatically" is a true claim, not a hope.
+[skills.sh](https://skills.sh) installs editable skill files directly from this repository.
 
-## Claude Code: the plugin
-
-<canonical-block name="claude-code">
-
-```bash
-claude plugins install mattpocock-skills
-```
-
-Or, from inside a session:
-
-```
-/plugin install mattpocock-skills
-```
-
-It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
-
-</canonical-block>
-
-## Codex, and other agents: skills.sh
-
-The plugin is Claude Code only. Everywhere else, [skills.sh](https://skills.sh/mattpocock/skills) copies editable skill files into the project. Use the whole-set form on `README.md`:
+## Codex, and other agents
 
 <canonical-block name="skills-sh-whole-set">
 
 ```bash
-npx skills@latest add mattpocock/skills
+npx skills@latest add Ghroth6/matt_skills
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take: make sure `setup-matt-pocock-skills` is one of them.**
+Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
+
+To install globally for Codex without choosing an agent interactively:
+
+```bash
+npx skills@latest add Ghroth6/matt_skills --global --agent codex
+```
+
+For only the 27 published skills, select the **Mattpocock Skills** group and leave **Other** unselected. The published set is listed in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
 
 </canonical-block>
 
-…and the single-skill form wherever one skill is named on its own. Note that **`docs/` pages are not a consumer of this block**: ai-hero renders the install widget above the body, so a page that writes the commands out duplicates it. See [writing-docs.md](./writing-docs.md).
+The Codex-specific command is an optional shortcut; keep the general command available. Installation does not require cloning this repository first.
+
+## For tinkerers
+
+<canonical-block name="skills-sh-tinkerers">
+
+Use the same installer, on any agent, including Claude Code:
+
+```bash
+npx skills@latest add Ghroth6/matt_skills
+```
+
+It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+
+</canonical-block>
+
+## Single-skill instructions
+
+Use this form wherever one skill is named on its own:
 
 <canonical-block name="skills-sh-one-skill">
 
 ```bash
-npx skills@latest add mattpocock/skills --skill=<name>
+npx skills@latest add Ghroth6/matt_skills --skill=<name>
 ```
 
 ```bash
@@ -50,12 +56,8 @@ npx skills@latest update <name>
 
 </canonical-block>
 
-`skills@latest` is the pinned spelling in all three. The pages under `docs/` used to carry their own copy of these commands; those blocks are now deleted rather than corrected, because the site renders the install commands itself.
+Use `skills@latest` in new installation commands. Pages under `docs/` carry no install commands because ai-hero renders the install widget; see [writing-docs.md](./writing-docs.md).
 
-## The two routes are exclusive
+## Marketplace metadata
 
-The plugin is a managed, read-only bundle you subscribe to. skills.sh writes files you own and edit. Installing both leaves the user with every skill twice: always say "pick one".
-
-## Not the install story
-
-`.claude-plugin/marketplace.json` makes the repo its own single-plugin marketplace (`/plugin marketplace add mattpocock/skills`, then `/plugin install mattpocock-skills@mattpocock`). The official listing supersedes it. It is kept as a fallback for installing the repo directly (an unreleased commit, or a fork), and is **not** documented to users.
+The Claude Code official marketplace installs upstream, so it is not an installation route for this fork's README. `.claude-plugin/marketplace.json` remains upstream's direct-repository fallback metadata; it does not change the documented skills.sh route above. Historical release notes and ADRs describe their original context.
