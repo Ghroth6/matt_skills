@@ -1,17 +1,11 @@
 ---
 name: diagnosing-bugs
-description: Investigate hard, unclear, recurring bugs or performance regressions with a feedback loop. Use for a requested diagnosis or a defect that resists a straightforward check; a simple explanatory question does not need this workflow.
+description: Diagnosis loop for hard bugs and performance regressions. Use when the user says "diagnose"/"debug this", or reports something broken/throwing/failing/slow.
 ---
 
 # Diagnosing Bugs
 
 A discipline for hard bugs. Skip phases only when explicitly justified.
-
-Start with the smallest useful inspection. Answer a simple explanation request
-directly; escalate to this loop when the symptom or cause needs investigation.
-Reuse relevant repro evidence already obtained. Reading code and forming
-provisional hypotheses may help construct a loop, but neither establishes a
-root cause or a verified fix.
 
 When exploring the codebase, read `GLOSSARY.md` (if it exists) to get a clear mental model of the relevant modules, and check ADRs in the area you're touching.
 
@@ -38,10 +32,7 @@ Spend disproportionate effort here. **Be aggressive. Be creative. Refuse to give
 7. **Property / fuzz loop.** If the bug is "sometimes wrong output", run 1000 random inputs and look for the failure mode.
 8. **Bisection harness.** If the bug appeared between two known states (commit, dataset, version), automate "boot at state X, check, repeat" so you can `git bisect run` it.
 9. **Differential loop.** Run the same input through old-version vs new-version (or two configs) and diff outputs.
-10. **Structured human observation.** When hardware access or manual actions
-    are necessary, record the setup, steps, expected symptom, observed result,
-    and relevant logs. Use `scripts/hitl-loop.template.sh` when Bash fits the
-    host; an explicit equivalent procedure is sufficient on other hosts.
+10. **HITL bash script.** Last resort. If a human must click, drive _them_ with `scripts/hitl-loop.template.sh` so the loop is still structured. Captured output feeds back to you.
 
 Build the right feedback loop, and the bug is 90% fixed.
 
@@ -53,9 +44,7 @@ Treat the loop as a product. Once you have _a_ loop, **tighten** it:
 - Can I make the signal sharper? (Assert on the specific symptom, not "didn't crash".)
 - Can I make it more deterministic? (Pin time, seed RNG, isolate filesystem, freeze network.)
 
-Prefer the fastest reliable loop that reaches the original failure. Slow boot,
-flashing, or manual equipment steps may be unavoidable; preserve their setup
-and evidence rather than replacing them with an unrelated fast mock.
+A 30-second flaky loop is barely better than no loop; a 2-second deterministic one is tight, a debugging superpower.
 
 ### Non-deterministic bugs
 
@@ -63,28 +52,18 @@ The goal is not a clean repro but a **higher reproduction rate**. Loop the trigg
 
 ### When you genuinely cannot build a loop
 
-State the verification gap and what you tried. Ask only for missing access,
-a redacted captured artifact, or authorization for necessary instrumentation.
-Continue useful authorized static inspection, keeping hypotheses provisional.
-An unverified candidate may be prepared within scope, but cannot be called a
-verified fix until evidence reaches the original failure. Lack of access does
-not authorize device changes or production instrumentation.
+Stop and say so explicitly. List what you tried. Ask the user for: (a) access to whatever environment reproduces it, (b) a redacted captured artifact (HAR file, log dump, core dump, screen recording with timestamps), or (c) permission to add temporary production instrumentation. Do **not** proceed to hypothesise without a loop.
 
 ### Completion criterion: a tight loop that goes red
 
-Phase 1 is done when the loop is **tight** and **red-capable**: name a command
-or structured procedure already exercised against the reported failure, with
-redacted observations. A recorded human run is evidence when its setup and
-result are explicit. The loop is:
+Phase 1 is done when the loop is **tight** and **red-capable**: you can name **one command** (a script path, a test invocation, a curl) that you have **already run at least once** (show the invocation and its output, redacted), and that is:
 
 - [ ] **Red-capable**: it drives the actual bug code path and asserts the **user's exact symptom**, so it can go red on this bug and green once fixed. Not "runs without erroring"; it must be able to _catch this specific bug_.
 - [ ] **Deterministic**: same verdict every run (flaky bugs: a pinned, high reproduction rate, per above).
-- [ ] **Efficient**: avoidable setup is removed; necessary device latency remains explicit.
-- [ ] **Repeatable**: the agent can run it, or a human can repeat the recorded steps and return the observations.
+- [ ] **Fast**: seconds, not minutes.
+- [ ] **Agent-runnable**: you can run it unattended; a human in the loop only via `scripts/hitl-loop.template.sh`.
 
-Use provisional theories to choose observations, then test them against this
-loop. A synthetic test is supporting evidence only unless it exercises the
-original failure path and observation.
+If you catch yourself reading code to build a theory before this command exists, **stop: jumping straight to a hypothesis is the exact failure this skill prevents.** No red-capable command, no Phase 2.
 
 ## Phase 2: Reproduce + minimise
 
@@ -102,13 +81,9 @@ Once it's red, shrink the repro to the **smallest scenario that still goes red**
 
 Why bother: a minimal repro shrinks the hypothesis space in Phase 3 (fewer moving parts left to suspect) and becomes the clean regression test in Phase 5.
 
-Done when the remaining setup is small enough to distinguish plausible causes
-without discarding the state or timing needed to trigger the original failure.
-Document an irreducible equipment setup instead of requiring exhaustive
-minimization of a real device environment.
+Done when **every remaining element is load-bearing**: removing any one of them makes the loop go green.
 
-Use the reproduced and reasonably minimized scenario to test hypotheses. If
-reproduction remains unavailable, keep the candidate and its claims unverified.
+Do not proceed until you have reproduced **and** minimised.
 
 ## Phase 3: Hypothesise
 

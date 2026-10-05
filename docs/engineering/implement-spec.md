@@ -1,8 +1,8 @@
 ## What it does
 
-`implement-spec` takes a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) and its [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) and coordinates their implementation on one **integration branch**. The orchestrating [agent](https://www.aihero.dev/ai-coding-dictionary/agent) gives each ready ticket to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) in a separate worktree, integrates the results, and reviews the combined change.
+`implement-spec` takes a [spec](https://www.aihero.dev/ai-coding-dictionary/spec) and its [tickets](https://www.aihero.dev/ai-coding-dictionary/ticket) and lands the whole thing in one run. The orchestrating [agent](https://www.aihero.dev/ai-coding-dictionary/agent) hands each ticket to an implementer [subagent](https://www.aihero.dev/ai-coding-dictionary/subagent) working in its own git worktree, merges each finished branch into a single **integration branch**, runs [code-review](https://aihero.dev/skills-code-review) over the result, and resolves the tickets.
 
-It reads the tickets as a **task graph**, not a list. The **frontier** contains authorized work with clear scope, decisions, and acceptance evidence whose dependencies are satisfied. A ticket without blockers can still be unready. Missing decisions or verification stay visible while independent work continues.
+It reads the tickets as a **task graph**, not a list. Blocking edges decide what can start, so at any moment there is a **frontier** of tickets whose blockers have all landed, and every ticket on the frontier runs at once. That is the difference from working the tickets one by one: the graph's shape, not its order on the tracker, sets the pace.
 
 ## When to reach for it
 
@@ -10,67 +10,77 @@ You invoke this by typing `/implement-spec`, and the agent won't reach for it on
 
 | Your situation | Reach for |
 | --- | --- |
-| A spec split into tickets that you want coordinated in parallel | `/implement-spec` |
-| A bounded deliverable you want to drive directly | [implement](https://aihero.dev/skills-implement) |
-| A spec that is not split into tickets yet | [to-tickets](https://aihero.dev/skills-to-tickets) first |
-| Missing product decisions that determine what should be built | Resolve the affected decisions before dispatching that work |
-
-Related phases can continue in a useful [context window](https://www.aihero.dev/ai-coding-dictionary/context-window). A fresh execution session is useful for independent work once its decisions are recoverable; clearing is not a prerequisite.
+| A spec, split into tickets with blocking edges, that you want landed in one run | `/implement-spec` |
+| One ticket at a time, in your own [context window](https://www.aihero.dev/ai-coding-dictionary/context-window), [clearing](https://www.aihero.dev/ai-coding-dictionary/clearing) between tickets | [implement](https://aihero.dev/skills-implement) |
+| A spec that isn't split into tickets yet | [to-tickets](https://aihero.dev/skills-to-tickets) first |
+| A small piece of work with no real graph to it | [implement](https://aihero.dev/skills-implement) directly |
 
 ## Prerequisites
 
-- **An issue tracker**, configured by [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) or equivalent project instructions. Without one, the skill asks you to configure it.
-- **Tickets with current sources and dependency relationships.** The spec, comments, corrections, and relevant prototype evidence must establish the work and how to verify it. Writing a ticket does not make it ready.
-- **A [harness](https://www.aihero.dev/ai-coding-dictionary/harness) that supports isolated subagents and worktrees.** Parallelism stays within the host's available capacity.
+- **An issue tracker.** The skill reads the tickets from, and resolves them on, the tracker [setup-matt-pocock-skills](https://aihero.dev/skills-setup-matt-pocock-skills) configured. If none has been configured, it stops and tells you to run that first rather than guessing.
+- **Tickets with blocking edges**, as [to-tickets](https://aihero.dev/skills-to-tickets) writes them. Without edges the graph is flat and every ticket starts at once.
+- **A [harness](https://www.aihero.dev/ai-coding-dictionary/harness) that runs subagents in the background and gives each one a git worktree.** The concurrency is the point; a harness that runs subagents one at a time gets a slower `implement`.
 
 ## The integration branch
 
-Every implementer starts from the integration branch, recovers its ticket's current contract, and builds with [tdd](https://aihero.dev/skills-tdd). It brings in the integration tip before reporting its commits and evidence. Merges are then serialized against the latest tip and checked for integration regressions. Worktrees isolate edits; they do not guarantee conflict-free or fast-forward merges.
+Everything lands on one branch. Each implementer:
 
-Implementers receive [context pointers](https://www.aihero.dev/ai-coding-dictionary/context-pointer) to the spec, comments, decisions, and shared exploration notes. These pointers preserve the reasons behind the ticket without copying the entire project history into every prompt. When a result invalidates a premise, affected work is reassessed before dispatch and active implementers are notified.
+1. confirms its worktree is based on the integration branch before it starts,
+2. builds its ticket with [tdd](https://aihero.dev/skills-tdd), red-green one slice at a time,
+3. merges the integration branch tip into its own branch before reporting done, so landing it is a fast-forward.
 
-| Delivery workflow | Result |
-| --- | --- |
-| Repository workflow or user authorizes a PR | A draft opens after the first integration; only fully covered work gets closing keywords |
-| Tracker closes through PR merge | Issues remain open until that workflow completes; verified work on the integration branch can satisfy internal dependencies |
-| Local tracker or branch-only delivery | Completed work is resolved through the configured workflow; the integration branch is reported |
-| Required decisions or verification remain missing | Independent work proceeds, but the missing scope is reported and any PR awaiting that evidence stays draft |
+Whether a pull request exists at all is the tracker's call. If your tracker closes work through PRs, or you ask for one, a draft PR opens after the first merge and is marked ready at the end. Otherwise the run stops on the integration branch with every ticket resolved the way your tracker closes work, which works fully offline against a local markdown tracker.
+
+Implementers talk to the orchestrator through [context pointers](https://www.aihero.dev/ai-coding-dictionary/context-pointer) (the spec, the ticket, shared exploration notes, earlier commits) rather than pasted summaries, which keeps each subagent's prompt small and the orchestrator's window free for the graph.
 
 ## Common questions
 
 **How is this different from running `/implement` on each ticket myself?**
 
-With `implement`, you choose each deliverable. `implement-spec` coordinates the frontier and gives you one integration branch to review. Invoking it to build a spec authorizes that spec's ready work; a planning conversation or router recommendation does not start execution.
+This is the question the skill exists to answer. Before it shipped, people kept building their own versions, and one user described the itch exactly: they wanted "subagents implement the tickets" instead of having "to individually create new session and tell them to implement a ticket one by one, when a spec may contain over 5 tickets." With `implement` you are the dispatcher: one [session](https://www.aihero.dev/ai-coding-dictionary/session) per ticket, clearing in between, and keeping track yourself of which tickets are unblocked. `implement-spec` hands that job to one orchestrating session. The price is that you no longer read each ticket's work as it lands; you review the integration branch at the end. To start a run, clear the context and type `/implement-spec` with a pointer to the spec (an issue number or a file path). For a small change with no real graph, skip it and use `implement` directly.
 
 **Does it need GitHub? I want it to stop at the branch.**
 
-No. The endpoint follows the configured workflow and your authorization. A local markdown tracker can resolve completed work offline. A PR-backed tracker can keep issues open until merge without stalling tickets whose required dependency evidence is already available on the integration branch.
+No, not any more. One user who liked the in-progress version had exactly this complaint: "it creates a PR at the end, which requires an online repository like GitHub. I wish it could do the same work offline and stop at the branch where all the work is merged." The goal is now the integration branch. A PR opens only when the configured tracker closes work through PRs or you ask for one, so on a local markdown tracker the run ends with every ticket resolved and the work merged on the branch.
 
-**Its review kept treating unbuilt tickets as failures.**
+**Its review and fix loop ran for hours, or kept "fixing" tickets that hadn't been built yet.**
 
-The final [code-review](https://aihero.dev/skills-code-review) receives the pre-work commit, current contract, verification evidence, and explicitly deferred scope. It reviews the implemented scope without turning missing decisions into new assignments. One implementer handles actionable findings, followed by focused checks and verification of the final diff, rather than restarting a broad review after every fix.
+Both come from `code-review` running outside the one slot the skill gives it. It compares the code against the whole spec, so it only makes sense once every ticket has landed; run it mid-run and every unbuilt ticket reads as a failure, the agent sets about building it, and that triggers another review. At the end, the skill runs `code-review` once and sends every finding to one fix subagent, but it doesn't yet say when to stop after that fix. One user reported a five-ticket feature where "the review and fix loop took roughly four hours". If you see a second broad review start, tell it to run focused checks for the fixed findings and stop. Expect that first review to find real problems: the run's output is a draft that the review finishes, not something to ship on its own.
 
 **Does it drive tdd like implement does?**
 
-Yes. Each implementer calls `tdd`. Name agreed seams in the spec or relevant sources so they survive dispatch. A substitute test still cannot prove device, GUI, or end-to-end acceptance that was not observed.
+It does now, though it didn't at first. Users running the in-progress version noticed that "the implementer subagents don't inherit the /tdd directive", so red-green dropped out the moment they scaled up from one ticket to a whole spec. Each implementer now builds its ticket with `tdd`. There is still no step where seams get agreed interactively, as there is in an `implement` session, so name the seams in the spec or the tickets if you want them pinned.
 
-**Two implementers collided on a file or chose different names.**
+**Two implementers running in parallel collided on the same file, or picked different names for the same thing.**
 
-Worktrees postpone collisions until integration. Shared mutable surfaces may need sequential work or an agreed contract before parallel dispatch. The merger checks the latest integration tip and reruns affected checks instead of assuming each implementer's earlier merge guaranteed compatibility.
+Worktrees don't remove collisions; they postpone them to merge time. A blocking edge written from ticket text is a guess about which files each ticket will touch, and two tickets on "different parts of the codebase" still share a message catalogue, a config registry, or a type. Each implementer sees only its own ticket and the shared notes, never the other's work in progress, so one user's web and mobile tickets added the same string as `blockedSince` and `blockedOn`. When two frontier tickets touch one shared surface, either add a blocking edge between them so they run one after the other, or have the exploration notes fix the exact names each ticket adds.
 
-**A key test was skipped inside its worktree, and it reported green.**
+**Blocked tickets never start, even after their blocker has merged.**
 
-Gitignored fixtures, local databases, credentials, and device access may be absent in a worktree. The report must name the missing evidence. Arrange the required resources or an authorized run in the appropriate environment; keep acceptance unverified until the real observation exists. A worktree holding unfinished work or unrecovered evidence is retained.
+A known rough edge on GitHub. The tracker's blocked-by count only drops when a blocker *closes*, and tickets typically close when the PR merges, which is the end of the run. The tracker is the right source for the starting graph but a stale one mid-run. Tell the orchestrator to track which tickets have merged into the integration branch itself and compute the frontier from that.
+
+**Does this replace Sandcastle or an AFK script?**
+
+No. People ask because the skills now reach into implementation: "is Sandcastle still relevant? Your skills now seem to be able to handle implementation as well." `implement-spec` puts an agent in charge of orchestration inside one harness session, which needs no infrastructure and lets you watch and steer. For work that is truly [AFK](https://www.aihero.dev/ai-coding-dictionary/afk), a deterministic loop ([Sandcastle](https://github.com/mattpocock/sandcastle), a shell script, a CI job) is faster, cheaper, and more reliable, because no part of the orchestration can wander off.
+
+**A ticket's key test was skipped inside its worktree, and it reported green.**
+
+A worktree holds only what git tracks. Tests that read gitignored fixtures, local databases, or credentials can skip themselves there silently. For a ticket whose verification depends on untracked material, tell the orchestrator to run it in the main checkout instead.
 
 ## It's working if
 
-- Independent, ready work runs in parallel within available capacity.
-- Tickets with missing decisions wait while unaffected work progresses.
-- A predecessor can unlock a dependent once the evidence it needs is verified on the integration branch, even while a PR remains open.
-- Implementers recover corrections and acceptance examples from their sources.
-- The final report separates implemented work, verified acceptance, and remaining gaps.
-- A PR becomes ready only when its declared scope is verified and review findings are resolved.
+- Several implementers are running at once whenever the graph allows, not one after another.
+- A ticket starts as soon as its last blocker lands on the integration branch, not when the whole run ends.
+- Every ticket's trace shows `tdd` running, with a failing test before the code.
+- Merges into the integration branch are fast-forwards, not conflict resolutions.
+- The run ends on one branch with every ticket resolved, and a PR only if your tracker wanted one.
 
 ## Where it fits
 
-`implement-spec` is the parallel build alternative to [implement](https://aihero.dev/skills-implement). It consumes the graph from [to-tickets](https://aihero.dev/skills-to-tickets) and runs `code-review` over the integration branch. Afterward, you can invoke [retro](https://aihero.dev/skills-retro) for environment improvements; it is not run automatically. [ask-matt](https://aihero.dev/skills-ask-matt) routes you when you are unsure which flow fits.
+`implement-spec` is the build step of the main chain, as the parallel alternative to running [implement](https://aihero.dev/skills-implement) once per ticket:
+
+```txt
+grill-with-docs → to-spec → to-tickets → implement-spec → retro
+```
+
+Its neighbours are [to-tickets](https://aihero.dev/skills-to-tickets), which declares the blocking edges it reads as a task graph, and [code-review](https://aihero.dev/skills-code-review), which it runs over the integration branch before closing out. [ask-matt](https://aihero.dev/skills-ask-matt) is the router over the whole set when you are not sure which flow you are in.

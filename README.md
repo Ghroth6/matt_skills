@@ -8,57 +8,78 @@
   </a>
 </p>
 
-# Matt Skills: personal fork
+# Skills For Real Engineers
 
-This is Ghroth6's personal downstream of [mattpocock/skills](https://github.com/mattpocock/skills). It keeps Matt's skill structure and selected workflow changes, recorded in [PERSONALIZATIONS.md](./PERSONALIZATIONS.md). Install from this fork's reviewed `main` branch.
+[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
 
-Original skills and independent research live in [Ghroth6/skills](https://github.com/Ghroth6/skills). The skill overview below retains Matt's upstream guidance and attribution.
+My agent skills that I use every day to do real engineering - not vibe coding.
 
-## Install and update
+Developing real applications is hard. Approaches like GSD, BMAD, and Spec-Kit try to help by owning the process. But while doing so, they take away your control and make bugs in the process hard to resolve.
 
-Use the same command for Codex, Claude Code, and other supported agents:
+These skills are designed to be small, easy to adapt, and composable. They work with any model. They're based on decades of engineering experience. Hack around with them. Make them your own. Enjoy.
 
-```bash
-npx skills add Ghroth6/matt_skills -g
-```
+If you want to keep up with changes to these skills, and any new ones I create, you can join ~60,000 other devs on my newsletter:
 
-Select all skills and choose the agents you use. `-g` installs for the current user across projects. All skills includes the experimental `in-progress/` and optional `misc/` buckets; their status remains visible in the bucket READMEs.
+[Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
-If you previously installed from Matt's repository with `skills`, this replaces the selected skills in the same scope and records this fork as their source. A separate uninstall is unnecessary. The official `mattpocock-skills` Claude plugin installs upstream; use one installation route per agent to avoid duplicate entries.
+## Installation (30-second setup)
 
-Update installed skills when ready:
+Two ways in, two philosophies. **The [Claude Code plugin](https://code.claude.com/docs/en/plugins)** installs the whole set as a managed, read-only bundle that updates when I ship, so you subscribe rather than fork. **[skills.sh](https://skills.sh/mattpocock/skills)** copies editable skill files into your project, so you can hack on them and make them your own. Pick one: installing both leaves you with every skill twice.
 
-```bash
-npx skills update -g
-```
+### 1. Get the skills
 
-This updates all global skills from their recorded sources, including skills from other repositories. Re-run the install command above to refresh only this fork's selected skills or change the selected agents. To update one skill:
+<details>
+<summary><strong>Claude Code</strong></summary>
 
 ```bash
-npx skills update wayfinder -g
+claude plugins install mattpocock-skills
 ```
 
-Use the same installation command on another computer, then update that computer's installed copies when ready. Updating the fork or one computer does not update installations on another computer. Skills that are renamed or removed from the fork need their old installed names removed with `npx skills remove <name> -g`.
+Or, from inside a session:
 
-### Configure each work project
+```
+/plugin install mattpocock-skills
+```
 
-Use `setup-matt-pocock-skills` in each work project that still needs its tracker, labels, or domain-document pointers configured. Existing project conventions remain the source of truth; installation and project setup are separate operations.
+It's in Claude Code's official marketplace, so there's nothing to add first, and updates arrive automatically.
 
-## Maintain this fork
+</details>
 
-There are two update operations: `skills update` refreshes installed copies from this fork, while upstream reconciliation brings selected Matt changes into the fork. The installer does not reconcile Git history.
-
-Periodically check upstream from a clone of this repository:
+<details>
+<summary><strong>Codex, and other agents</strong></summary>
 
 ```bash
-git fetch upstream
-git log --oneline main..upstream/main
-git diff main...upstream/main
+npx skills@latest add mattpocock/skills
 ```
 
-`origin` is `Ghroth6/matt_skills`; `upstream` is `mattpocock/skills`. In a fresh clone, configure upstream once with `git remote add upstream https://github.com/mattpocock/skills.git`. Keep the review, branch, and adoption decisions in the [maintenance policy](./PERSONALIZATIONS.md#maintenance-policy).
+Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
 
-Use the same maintenance loop for problems found in daily use: record a concrete failure, change the affected skill, and verify the behavior. For Matt's personal or experimental skills, decide whether to use as-is, adapt, leave uninstalled, or retire after checking references from other skills. Record intentional adaptations and retirements in `PERSONALIZATIONS.md` so future upstream reviews preserve those decisions.
+A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
+
+</details>
+
+<details>
+<summary><strong>For tinkerers</strong></summary>
+
+Use the same installer, on any agent, including Claude Code:
+
+```bash
+npx skills@latest add mattpocock/skills
+```
+
+It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+
+</details>
+
+### 2. Run `/setup-matt-pocock-skills`
+
+In your agent, run it once per repo. It will:
+
+- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
+- Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
+- Ask you where you want to save any docs we create
+
+### 3. Bam - you're ready to go.
 
 ## Why These Skills Exist
 
@@ -178,7 +199,7 @@ Skills I use daily for code work.
 - **[to-spec](./skills/engineering/to-spec/SKILL.md)**: Turn the current conversation into a spec and publish it to the issue tracker. No interview, just synthesizes what you've already discussed.
 - **[to-tickets](./skills/engineering/to-tickets/SKILL.md)**: Break any plan, spec, or conversation into a set of tracer-bullet tickets, each declaring its blocking edges, written as text in a local file, or as native blocking links on a real tracker.
 - **[implement](./skills/engineering/implement/SKILL.md)**: Build the work described by a spec or set of tickets, driving `/tdd` at pre-agreed seams and closing out with `/code-review` before committing.
-- **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**: Coordinate a spec's authorized, ready task graph on one integration branch, recover each ticket's sources, and review the combined result with explicit verification gaps.
+- **[implement-spec](./skills/engineering/implement-spec/SKILL.md)**: Implement a whole spec on one integration branch. Works the tickets as a task graph, running implementer subagents across the ready frontier for maximum concurrency, then closes out with `/code-review`.
 - **[wayfinder](./skills/engineering/wayfinder/SKILL.md)**: Plan a huge chunk of work, more than one agent session can hold, as a shared map of decision tickets on the issue tracker, and resolve them one at a time until the way to the destination is clear.
 - **[retro](./skills/engineering/retro/SKILL.md)**: Suggest improvements to the coding agent's environment (navigation, automated checks, coding standards, steering files, tooling) after a session, most severe first.
 
