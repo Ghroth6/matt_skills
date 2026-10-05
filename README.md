@@ -16,7 +16,7 @@
 
 本仓库是 [Ghroth6/matt_skills](https://github.com/Ghroth6/matt_skills)，fork 自 [mattpocock/skills](https://github.com/mattpocock/skills)。Skills 的原作者是 Matt Pocock，下文保留上游的理念与使用说明。
 
-当前 Skill 内容采用上游标准发布版 **v1.3.1**，不包含此前的个人行为改写。本 README 补充 fork 的说明和获取方式；使用时从本 fork 拉取、安装，版本以本 fork 已同步的发布版为准。
+当前 Skill 内容采用上游标准发布版 **v1.3.1**，不包含此前的个人行为改写。本 README 补充 fork 的说明和安装方式，安装版本以本 fork 已同步的发布版为准。
 
 My agent skills that I use every day to do real engineering - not vibe coding.
 
@@ -28,49 +28,17 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 [Sign Up To The Newsletter](https://www.aihero.dev/s/skills-newsletter)
 
-## 获取与安装
+## 安装
 
-### 1. 从本 fork 获取仓库
-
-```bash
-git clone https://github.com/Ghroth6/matt_skills.git
-cd matt_skills
-```
-
-已有克隆时，在仓库目录中拉取本 fork 的更新：
-
-```bash
-git pull --ff-only origin main
-```
-
-`git pull` 更新仓库文件。通过下面的安装器复制出去的 Skills，需要重新安装才能更新。
-
-### 2. 安装已发布的 Skills 到 Codex
-
-发布范围以 [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json) 的 `skills` 清单为准，v1.3.1 共 **27 个**。仓库中还保留上游未发布的目录，因此不要在安装器中直接全选全部发现的 Skills。
-
-在刚拉取的仓库根目录运行以下 PowerShell 命令，需要已安装 Git 和 Node.js/npm：
-
-```powershell
-$publishedSkills = (Get-Content .claude-plugin/plugin.json -Raw | ConvertFrom-Json).skills |
-    ForEach-Object { ($_ -split '/')[-1] }
-$forkRevision = git rev-parse HEAD
-npx skills@latest add "https://github.com/Ghroth6/matt_skills/tree/$forkRevision" --global --agent codex --skill $publishedSkills
-```
-
-这会从本 fork 与当前克隆一致的提交安装清单内的 Skills，安装范围为当前用户的 Codex。后续更新时，先拉取本 fork，再运行同一段命令。旧版本中已退出发布清单的 Skills 需要另行卸载，重新安装不会自动清理它们。
-
-若希望交互式挑选，使用：
+直接从本 fork 安装到当前用户的 Codex，无需克隆仓库：
 
 ```bash
 npx skills@latest add Ghroth6/matt_skills --global --agent codex
 ```
 
-只选择发布清单内的 Skills，并包含 `setup-matt-pocock-skills`。Claude Code 官方市场中的 `mattpocock-skills` 来自上游，不会跟随本 fork；其使用方法见[上游安装说明](https://github.com/mattpocock/skills#installation-30-second-setup)。
+在安装器中只选择 **Mattpocock Skills** 分组的 27 个已发布 Skills，不选择 **Other**。发布清单见 [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json)。以后更新时重新运行同一条命令即可。
 
-### 3. 在每个项目运行一次 `/setup-matt-pocock-skills`
-
-它会配置项目的 issue tracker、triage labels 和文档目录。安装 Skills 与配置项目是两个步骤。
+安装后，在每个项目运行一次 `/setup-matt-pocock-skills`，配置 issue tracker、triage labels 和文档目录。
 
 ## Why These Skills Exist
 
