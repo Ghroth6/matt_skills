@@ -26,8 +26,6 @@ No em-dashes anywhere in this repo's prose (`SKILL.md` files, docs, `README.md`,
 
 Every skill that dispatches a subagent says to start it with a fresh context window. Some harnesses (Codex, for one) fork the parent conversation by default, and a fork inherits the parent's context, which is what the subagent was meant to escape.
 
-## Agent skills
+## Fork maintenance
 
-### Triage labels
-
-Canonical names, unchanged. See `docs/agents/triage-labels.md`. Issues are judged against [`SCOPE.md`](./SCOPE.md).
+Follow [CONTRIBUTING.md](./CONTRIBUTING.md) when syncing upstream or applying local fixes. This fork uses small, reviewed patches without upstream issue-intake or release automation. Keep those workflows and forms absent during future syncs; preserve the reusable Skills and their tracker templates for consuming projects.

@@ -1,25 +1,22 @@
 # Contributing
 
-Every issue is judged against the bar in [`SCOPE.md`](./SCOPE.md). Read it first.
+This fork tracks [mattpocock/skills](https://github.com/mattpocock/skills) and carries small local fixes. The maintainer's request or a linked issue defines the work.
 
-## Where each request goes
+## Maintenance
 
-| You have | Go to |
-| --- | --- |
-| A bug in a skill | [Bug issue](https://github.com/mattpocock/skills/issues/new?template=bug.yml) |
-| A change to an existing skill | [Idea or feedback issue](https://github.com/mattpocock/skills/issues/new?template=idea.yml) |
-| A question, or "how do I...?" | [Discussions: Q&A](https://github.com/mattpocock/skills/discussions/categories/q-a) |
-| An idea for a new skill, or a skill to donate | [Discussions: Ideas](https://github.com/mattpocock/skills/discussions/categories/ideas) |
-| Support for another harness or issue tracker | [Discussions: Ideas](https://github.com/mattpocock/skills/discussions/categories/ideas), after you read [`.out-of-scope/`](./.out-of-scope) |
+- Merge upstream history, then preserve or reapply the agreed fork patches. Keep a merge commit when integrating upstream so future syncs retain the common ancestry.
+- Make each local fix on a branch and submit it through a pull request. Keep changes limited to the request, with checks appropriate to the affected files.
+- Keep fork installation commands and repository metadata pointed at `Ghroth6/matt_skills`. Preserve upstream attribution, historical links, and reusable Skill behavior unless the requested fix changes them.
+- GitHub issue forms, automatic triage, stale-issue closure, and release automation are not used here. When syncing upstream, keep these workflows and forms absent rather than reintroducing them.
+- `SCOPE.md` and `.out-of-scope/` retain upstream policy as reference; they do not replace the maintainer's decisions for this fork.
+- Repository maintenance does not update installed Skill copies. Installation and device migration are separate tasks.
 
-Pull requests are open to collaborators only, so describe the fix in an issue instead.
+## Local checks
 
-## Issues written with AI
+Run `git diff --check` and `node scripts/sync-plugin-version.mjs --check`. After changing a plugin manifest, also run `claude plugin validate . --strict`. Validate changed scripts and Skill behavior as appropriate to the patch.
 
-Agents are welcome to help, but you post the issue, so you own it:
+## Versions
 
-- **One problem per issue.** Several findings from one session are several issues, or none.
-- **Short.** If it does not fit on one screen, cut it.
-- **Repro first.** The steps that show the problem come before any analysis.
-- **No pasted specs.** No full proposals, plans, or rewritten `SKILL.md` files. Describe the problem; the fix is ours to design.
-- **Not your project's issues.** If your agent files the specs or tickets for your own project here, it has the wrong repo. Run `/setup-matt-pocock-skills` in your project.
+Routine upstream syncs and local fixes use Git commits and pull requests as their record; they do not require a changeset, release PR, or tag. Existing Changesets files and tooling remain as merge/reference material, not a required fork workflow.
+
+Keep `package.json` and `.claude-plugin/plugin.json` at the same version. A separate distribution task can decide whether to bump the version; if needed, edit the package version and run `node scripts/sync-plugin-version.mjs` before checking and committing both files.
