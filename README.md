@@ -10,7 +10,9 @@
 
 # Skills For Real Engineers
 
-[![skills.sh](https://skills.sh/b/mattpocock/skills)](https://skills.sh/mattpocock/skills)
+[![skills.sh](https://skills.sh/b/Ghroth6/matt_skills)](https://skills.sh/Ghroth6/matt_skills)
+
+This fork follows [mattpocock/skills](https://github.com/mattpocock/skills) and carries small local fixes. See [Contributing](./CONTRIBUTING.md) for its lightweight maintenance workflow.
 
 My agent skills that I use every day to do real engineering - not vibe coding.
 

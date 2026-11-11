@@ -19,7 +19,7 @@ Lead with each host's plugin route where available, and retain npx for users who
 | Gemini CLI | `gemini skills install` | Re-run the two install commands |
 | Other agents or editable files | npx / skills.sh | Run `update`; re-run `add` to pick up new skills |
 
-The release workflow runs `npm run version` to synchronize `package.json` and the plugin version. Publish version changes through that workflow so hosts that cache by version can recognize releases. A source merge alone is not evidence that installed copies have updated.
+This fork has no automated release workflow. Routine fixes are recorded in Git commits and pull requests. Keep the package and plugin versions synchronized with `node scripts/sync-plugin-version.mjs --check`; decide any distribution version bump separately. A source merge alone is not evidence that installed copies have updated.
 
 Command forms and update controls were checked against the linked official documentation on 2026-11-11. Fork installation and automatic-update behavior have not been exercised on devices.
 
