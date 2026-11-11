@@ -45,8 +45,6 @@ npx skills@latest add Ghroth6/matt_skills --global --agent codex
 
 For only the 27 published skills, select the **Mattpocock Skills** group and leave **Other** unselected. The published set is listed in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
 
-A native Codex plugin is on the roadmap (see [`.agents/adr/0002-ship-as-a-claude-code-plugin.md`](./.agents/adr/0002-ship-as-a-claude-code-plugin.md)).
-
 </details>
 
 <details>
@@ -66,7 +64,7 @@ It writes the skills into your repo as ordinary files you own and can edit. Noth
 
 In your agent, run it once per repo. It will:
 
-- Ask you which issue tracker you want to use (GitHub, Linear, or local files)
+- Ask you which issue tracker you want to use (GitHub, GitLab, local files, or anything else you describe)
 - Ask you what labels you apply to tickets when you triage them (`/triage` uses labels)
 - Ask you where you want to save any docs we create
 
