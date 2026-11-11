@@ -1,8 +1,8 @@
 ## What it does
 
-`wait-what` is what you type when a message didn't land. The [agent](https://www.aihero.dev/ai-coding-dictionary/agent) then re-pitches what it just said. It adds the context you were missing, writes in plain English, and uses the vocabulary from your project's `GLOSSARY.md`.
+`wait-what` is what you type when a message didn't land. The [agent](https://www.aihero.dev/ai-coding-dictionary/agent) then re-pitches what it just said. It adds the context you were missing, uses simple wording in the language you are using, and keeps your project's established terms.
 
-The skill is three lines long. That is the design, not an unfinished draft. Skills that fight verbosity fail by growing: a four-hundred-line concision skill still leaves the [model](https://www.aihero.dev/ai-coding-dictionary/model) verbose, because the model reads the volume, not the plea. This one carries a single precise leading word and nothing else.
+The skill stays short so the [model](https://www.aihero.dev/ai-coding-dictionary/model) can focus on the re-pitch: restore the missing context and make the explanation easier to follow.
 
 ## When to reach for it
 
@@ -20,15 +20,22 @@ The skill says re-pitch **that**, not "that last message". What lost you is usua
 
 ## It plugs into the language you already have
 
-The body reuses the leading words already in your global `CLAUDE.md` and your project's `GLOSSARY.md`. ASD-STE100 Simplified Technical English sets the register. The ubiquitous language supplies the nouns. The skill, `CLAUDE.md` and `GLOSSARY.md` reach for the same [tokens](https://www.aihero.dev/ai-coding-dictionary/token), so invoking it is not a new instruction. It is a reminder of one the agent already agreed to.
+ASD-STE100-style wording supplies the style: short sentences, active voice, and one term per concept. Your project's `GLOSSARY.md` supplies the vocabulary; `GLOSSARY-MAP.md`, when present, points to the glossary for the relevant context.
 
-If you have no `GLOSSARY.md` (and no `GLOSSARY-MAP.md` pointing to one for the context at hand), the skill still works. You lose only the domain-vocabulary half.
+If neither glossary document exists, the skill uses the project's established terms.
+
+## Common questions
+
+**Will it switch my explanation to English?**
+
+It keeps the language you are using, including English when you are writing in English. Literal ASD-STE100 compliance is possible only in English. In other languages, the skill applies its wording rules as style constraints.
 
 ## It's working if
 
 - The re-pitch is **shorter and clearer**, not shorter and blunter.
 - It adds the premise you were missing, instead of only deleting words.
-- Project nouns replace invented ones. The terms in your `GLOSSARY.md` come back.
+- The explanation stays in the language you are using.
+- Project nouns replace invented ones, using your glossary or the terms already established in the project.
 - You can use it twice in a row, and it does not degrade into terseness.
 
 ## Where it fits
