@@ -24,18 +24,89 @@ If you want to keep up with changes to these skills, and any new ones I create, 
 
 ## Installation (30-second setup)
 
-[skills.sh](https://skills.sh) installs editable skill files directly from this repository.
+All routes below install this fork, `Ghroth6/matt_skills`. Choose a host-specific plugin route or editable files through npx. Use one route per agent to avoid duplicate skills.
+
+Plugin commands use the fork's marketplace name, `ghroth6`, and the existing plugin name, `mattpocock-skills`. The Claude official marketplace distributes upstream and is not an installation route for this fork.
 
 ### 1. Get the skills
 
 <details>
-<summary><strong>Codex, and other agents</strong></summary>
+<summary><strong>Claude Code</strong></summary>
+
+```bash
+claude plugin marketplace add Ghroth6/matt_skills
+claude plugin install mattpocock-skills@ghroth6
+```
+
+For automatic updates, open `/plugin`, select **Marketplaces**, choose `ghroth6`, and enable auto-update. Custom marketplaces have auto-update off by default. To update manually, run `claude plugin update mattpocock-skills@ghroth6`.
+
+The Claude official marketplace provides the upstream version, not this fork.
+
+</details>
+
+<details>
+<summary><strong>Codex</strong></summary>
+
+```bash
+codex plugin marketplace add Ghroth6/matt_skills
+codex plugin add mattpocock-skills@ghroth6
+```
+
+To explicitly refresh this marketplace, run `codex plugin marketplace upgrade ghroth6`. Start a new session after installation or an update to use the refreshed skills.
+
+</details>
+
+<details>
+<summary><strong>GitHub Copilot CLI</strong></summary>
+
+```bash
+copilot plugin marketplace add Ghroth6/matt_skills
+copilot plugin install mattpocock-skills@ghroth6
+```
+
+For automatic updates, merge this entry into `extraKnownMarketplaces` in your user settings, preserving other entries:
+
+```json
+{
+  "extraKnownMarketplaces": {
+    "ghroth6": { "source": { "source": "github", "repo": "Ghroth6/matt_skills" }, "autoUpdate": true }
+  }
+}
+```
+
+This opt-in applies to interactive and `-p` sessions. For a manual update, run `copilot plugin update mattpocock-skills`.
+
+</details>
+
+<details>
+<summary><strong>VS Code</strong></summary>
+
+Run **Chat: Install Plugin from Source** and enter `https://github.com/Ghroth6/matt_skills`.
+
+Automatic plugin updates follow `extensions.autoUpdate`. To update manually, run **Chat: Update Plugins**.
+
+</details>
+
+<details>
+<summary><strong>Gemini CLI (manual updates)</strong></summary>
+
+```bash
+gemini skills install https://github.com/Ghroth6/matt_skills.git --path skills/engineering
+gemini skills install https://github.com/Ghroth6/matt_skills.git --path skills/productivity
+```
+
+Re-run both commands to update. These paths select the two promoted skill buckets.
+
+</details>
+
+<details>
+<summary><strong>Other agents, or editable files (npx / skills.sh)</strong></summary>
 
 ```bash
 npx skills@latest add Ghroth6/matt_skills
 ```
 
-Pick the skills you want, and which coding agents to install them on. **The installer lets you choose which skills to take, so make sure `setup-matt-pocock-skills` is one of them.**
+Pick the skills and agents you want, including `setup-matt-pocock-skills`. To preselect an agent, append `-a <agent>`.
 
 To install globally for Codex without choosing an agent interactively:
 
@@ -43,20 +114,9 @@ To install globally for Codex without choosing an agent interactively:
 npx skills@latest add Ghroth6/matt_skills --global --agent codex
 ```
 
-For only the 27 published skills, select the **Mattpocock Skills** group and leave **Other** unselected. The published set is listed in [`.claude-plugin/plugin.json`](./.claude-plugin/plugin.json).
+For only the 27 published skills, select the **Mattpocock Skills** group and leave **Other** unselected. The published set is listed in [`.claude-plugin/plugin.json`](https://github.com/Ghroth6/matt_skills/blob/main/.claude-plugin/plugin.json).
 
-</details>
-
-<details>
-<summary><strong>For tinkerers</strong></summary>
-
-Use the same installer, on any agent, including Claude Code:
-
-```bash
-npx skills@latest add Ghroth6/matt_skills
-```
-
-It writes the skills into your repo as ordinary files you own and can edit. Nothing updates behind your back; pull my latest changes when you want them with `npx skills update`.
+This route installs editable files and works with Claude Code too. To update, run `npx skills@latest update`; re-run `add` to pick up newly added skills.
 
 </details>
 
